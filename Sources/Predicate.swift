@@ -10,7 +10,7 @@ import Foundation
 extension NSPredicate {
     
     public convenience init(name: String, between dateRange: Range<Date>) {
-        
+
         self.init(format: "\(name) >= %@ AND \(name) < %@", dateRange.lowerBound as NSDate, dateRange.upperBound as NSDate)
     }
     
