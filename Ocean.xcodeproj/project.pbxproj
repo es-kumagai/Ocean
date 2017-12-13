@@ -1,0 +1,272 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B1091B201FDE771500420D74 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1091B1D1FDE76EF00420D74 /* Date.swift */; };
+		B144B5FB1FE06FCE00CC8F52 /* ReferenceCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B144B5FA1FE06FCE00CC8F52 /* ReferenceCounter.swift */; };
+		B169A7691FE1E10A00F18992 /* Swim.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B169A76A1FE1E10A00F18992 /* Swim.framework */; };
+		B16D981B1FDED85000EB799C /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16D981A1FDED85000EB799C /* Notification.swift */; };
+		B16D98231FDEDFCD00EB799C /* NotificationPostable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16D98221FDEDFCD00EB799C /* NotificationPostable.swift */; };
+		B16D98251FDEE03800EB799C /* NotificationObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16D98241FDEE03800EB799C /* NotificationObservable.swift */; };
+		B16D982B1FDEF76400EB799C /* NotificationHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16D982A1FDEF76400EB799C /* NotificationHandlers.swift */; };
+		B16D982D1FDEF9AF00EB799C /* NotificationToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = B16D982C1FDEF9AF00EB799C /* NotificationToken.swift */; };
+		OBJ_49 /* Predicate.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_8 /* Predicate.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		B16D98431FDFC06A00EB799C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		B1091B1D1FDE76EF00420D74 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		B144B5FA1FE06FCE00CC8F52 /* ReferenceCounter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferenceCounter.swift; sourceTree = "<group>"; };
+		B169A76A1FE1E10A00F18992 /* Swim.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Swim.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B16D981A1FDED85000EB799C /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		B16D98221FDEDFCD00EB799C /* NotificationPostable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NotificationPostable.swift; path = Sources/NotificationPostable.swift; sourceTree = SOURCE_ROOT; };
+		B16D98241FDEE03800EB799C /* NotificationObservable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationObservable.swift; sourceTree = "<group>"; };
+		B16D982A1FDEF76400EB799C /* NotificationHandlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHandlers.swift; sourceTree = "<group>"; };
+		B16D982C1FDEF9AF00EB799C /* NotificationToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationToken.swift; sourceTree = "<group>"; };
+		OBJ_8 /* Predicate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Predicate.swift; sourceTree = "<group>"; };
+		"Ocean::Ocean::Product" /* Ocean.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Ocean.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		OBJ_50 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+				B169A7691FE1E10A00F18992 /* Swim.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		B169A7621FE1D95900F18992 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B169A76A1FE1E10A00F18992 /* Swim.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		OBJ_16 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				"Ocean::Ocean::Product" /* Ocean.framework */,
+			);
+			name = Products;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		OBJ_5 = {
+			isa = PBXGroup;
+			children = (
+				OBJ_7 /* Sources */,
+				OBJ_16 /* Products */,
+				B169A7621FE1D95900F18992 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		OBJ_7 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				B1091B1D1FDE76EF00420D74 /* Date.swift */,
+				B16D981A1FDED85000EB799C /* Notification.swift */,
+				B16D982A1FDEF76400EB799C /* NotificationHandlers.swift */,
+				B16D982C1FDEF9AF00EB799C /* NotificationToken.swift */,
+				B16D98241FDEE03800EB799C /* NotificationObservable.swift */,
+				B16D98221FDEDFCD00EB799C /* NotificationPostable.swift */,
+				OBJ_8 /* Predicate.swift */,
+				B144B5FA1FE06FCE00CC8F52 /* ReferenceCounter.swift */,
+			);
+			path = Sources;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		"Ocean::Ocean" /* Ocean */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_45 /* Build configuration list for PBXNativeTarget "Ocean" */;
+			buildPhases = (
+				OBJ_48 /* Sources */,
+				OBJ_50 /* Frameworks */,
+				B16D98431FDFC06A00EB799C /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Ocean;
+			productName = Ocean;
+			productReference = "Ocean::Ocean::Product" /* Ocean.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		OBJ_1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 9999;
+			};
+			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "Ocean" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = OBJ_5;
+			productRefGroup = OBJ_16 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				"Ocean::Ocean" /* Ocean */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		OBJ_48 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				B144B5FB1FE06FCE00CC8F52 /* ReferenceCounter.swift in Sources */,
+				OBJ_49 /* Predicate.swift in Sources */,
+				B16D98251FDEE03800EB799C /* NotificationObservable.swift in Sources */,
+				B16D98231FDEDFCD00EB799C /* NotificationPostable.swift in Sources */,
+				B1091B201FDE771500420D74 /* Date.swift in Sources */,
+				B16D981B1FDED85000EB799C /* Notification.swift in Sources */,
+				B16D982B1FDEF76400EB799C /* NotificationHandlers.swift in Sources */,
+				B16D982D1FDEF9AF00EB799C /* NotificationToken.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		OBJ_3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "-DXcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = SWIFT_PACKAGE;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				USE_HEADERMAP = NO;
+			};
+			name = Debug;
+		};
+		OBJ_4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_OPTIMIZATION_LEVEL = s;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_SWIFT_FLAGS = "-DXcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = SWIFT_PACKAGE;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				USE_HEADERMAP = NO;
+			};
+			name = Release;
+		};
+		OBJ_46 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = Ocean.xcodeproj/Ocean_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = Ocean;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGET_NAME = Ocean;
+			};
+			name = Debug;
+		};
+		OBJ_47 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = Ocean.xcodeproj/Ocean_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = Ocean;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGET_NAME = Ocean;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		OBJ_2 /* Build configuration list for PBXProject "Ocean" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_3 /* Debug */,
+				OBJ_4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		OBJ_45 /* Build configuration list for PBXNativeTarget "Ocean" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_46 /* Debug */,
+				OBJ_47 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = OBJ_1 /* Project object */;
+}
