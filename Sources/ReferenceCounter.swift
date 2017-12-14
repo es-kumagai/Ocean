@@ -32,11 +32,11 @@ public struct ReferenceCounter {
         }
     }
     
-    public mutating func retain() {
+    public mutating func retain(adding count: Int = 1) {
         
         ReferenceCounter.queue.sync {
             
-            _count += 1
+            _count += count
         }
     }
     
