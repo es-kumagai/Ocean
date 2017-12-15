@@ -33,4 +33,12 @@ extension NSPredicate {
         
         self.init(format: "\(name) <= %@", dateRange.upperBound as NSDate)
     }
+    
+    public convenience init(name: String, inYear year: Int) {
+        
+        let startDate = Date(year: year, month: 1, day: 1)
+        let endDate = Date(year: year + 1, month: 1, day: 1)
+
+        self.init(name: name, between: startDate ..< endDate)
+    }
 }
