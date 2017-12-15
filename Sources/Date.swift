@@ -20,6 +20,20 @@ extension Date {
         self = calendar.date(from: components)!
     }
 
+    public init(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int, calendar: Calendar = Calendar(identifier: .gregorian)) {
+        
+        var components = DateComponents()
+        
+        components.year = year
+        components.month = month
+        components.day = day
+        components.hour = hour
+        components.minute = minute
+        components.second = second
+        
+        self = calendar.date(from: components)!
+    }
+    
     public func components(_ components: Set<Calendar.Component>, with calendar: Calendar = Calendar(identifier: .gregorian)) -> DateComponents {
         
         return calendar.dateComponents(components, from: self)
