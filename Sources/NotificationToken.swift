@@ -11,7 +11,7 @@ extension Notification {
     
     public final class Token : Equatable {
         
-        private var token: Any
+        private var token: Any?
         
         internal init(_ token: Any) {
             
@@ -19,8 +19,19 @@ extension Notification {
         }
         
         deinit {
+
+            release()
+        }
+        
+        public func release() {
+
+            guard let t = token else {
+                
+                return
+            }
             
-            notificationCenter.removeObserver(token)
+            notificationCenter.removeObserver(t)
+            token = nil
         }
         
         public static func == (lhs: Token, rhs: Token) -> Bool {

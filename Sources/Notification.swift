@@ -12,6 +12,7 @@ private let notificationIdentifierPrefix = "jp.ez-net.notification."
 
 public protocol NotificationProtocol {
     
+    func post()
 }
 
 extension NotificationProtocol {

@@ -1,5 +1,5 @@
 //
-//  Observable.swift
+//  NotificationObserve.swift
 //  Ocean
 //
 //  Created by Tomohiro Kumagai on 12/12/17.
@@ -8,10 +8,6 @@
 import Foundation
 
 public protocol NotificationObservable {
-
-}
-
-public protocol ManagedNotificationObservable : NotificationObservable {
 
     var notificationHandlers: Notification.Handlers { get }
 }
@@ -55,7 +51,7 @@ private func _observe<T: NotificationProtocol, Observer: NSObjectProtocol>(_ not
     }
 }
 
-extension ManagedNotificationObservable {
+extension NotificationObservable {
     
     public func observe<T: NotificationProtocol, Observer: NSObjectProtocol>(notification: T.Type, observer: Observer, selector: Selector, object: Any? = nil) {
         
