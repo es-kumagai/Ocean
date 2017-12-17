@@ -16,29 +16,42 @@ public protocol ManagedNotificationObservable : NotificationObservable {
     var notificationHandlers: Notification.Handlers { get }
 }
 
-extension NotificationObservable {
+public func observe<T: NotificationProtocol>(_ notification: T.Type, object: Any? = nil, queue: OperationQueue? = nil, using handler: @escaping (T) -> Void) -> Notification.Token {
 
-    public func observe<T: NotificationProtocol, Observer: NSObjectProtocol>(notification: T.Type, observer: Observer, selector: Selector, object: Any? = nil) -> Notification.Token {
+    return _observe(notification, object: object, queue: queue, using: handler)
+}
 
-        return observe(notification: T.self) { notification in
-            
-            observer.perform(selector, with: notification)
-        }
-    }
+public func observe(notificationNamed name: Notification.Name, object: Any? = nil, queue: OperationQueue? = nil, using handler: @escaping (Notification) -> Void) -> Notification.Token {
+    
+    return _observe(notificationNamed: name, object: object, queue: queue, using: handler)
+}
 
-    public func observe(notificationName name: Notification.Name, object: Any? = nil, queue: OperationQueue? = nil, using handler: @escaping (Notification) -> Void) -> Notification.Token {
+public func observe<T: NotificationProtocol, Observer: NSObjectProtocol>(_ notification: T.Type, observer: Observer, selector: Selector, object: Any? = nil) -> Notification.Token {
+    
+    return _observe(notification, observer: observer, selector: selector, object: object)
+}
 
-        return Notification.Token(
-            notificationCenter.addObserver(forName: name, object: object, queue: queue, using: handler)
-        )
-    }
 
-    public func observe<T: NotificationProtocol>(notification: T.Type, object: Any? = nil, queue: OperationQueue? = nil, using handler: @escaping (T) -> Void) -> Notification.Token {
+private func _observe<T: NotificationProtocol>(_ notification: T.Type, object: Any? = nil, queue: OperationQueue? = nil, using handler: @escaping (T) -> Void) -> Notification.Token {
+    
+    return Notification.Token(notificationCenter.addObserver(forName: notification.notificationName, object: object, queue: queue) { rawNotification in
+        
+        handler(rawNotification.object as! T)
+    })
+}
 
-        return Notification.Token(notificationCenter.addObserver(forName: notification.notificationName, object: object, queue: queue) { rawNotification in
+private func _observe(notificationNamed name: Notification.Name, object: Any? = nil, queue: OperationQueue? = nil, using handler: @escaping (Notification) -> Void) -> Notification.Token {
+    
+    return Notification.Token(
+        notificationCenter.addObserver(forName: name, object: object, queue: queue, using: handler)
+    )
+}
 
-            handler(rawNotification.object as! T)
-        })
+private func _observe<T: NotificationProtocol, Observer: NSObjectProtocol>(_ notification: T.Type, observer: Observer, selector: Selector, object: Any? = nil) -> Notification.Token {
+    
+    return _observe(T.self) { notification in
+        
+        observer.perform(selector, with: notification)
     }
 }
 
@@ -47,21 +60,21 @@ extension ManagedNotificationObservable {
     public func observe<T: NotificationProtocol, Observer: NSObjectProtocol>(notification: T.Type, observer: Observer, selector: Selector, object: Any? = nil) {
         
         notificationHandlers.add(
-            observe(notification: notification, observer: observer, selector: selector, object: object)
+            _observe(notification, observer: observer, selector: selector, object: object)
         )
     }
     
-    public func observe(notificationName name: Notification.Name, object: Any? = nil, queue: OperationQueue? = nil, using handler: @escaping (Notification) -> Void) {
+    public func observe(notificationNamed name: Notification.Name, object: Any? = nil, queue: OperationQueue? = nil, using handler: @escaping (Notification) -> Void) {
         
         notificationHandlers.add(
-            observe(notificationName: name, object: object, queue: queue, using: handler)
+            _observe(notificationNamed: name, object: object, queue: queue, using: handler)
         )
     }
     
     public func observe<T: NotificationProtocol>(notification: T.Type, object: Any? = nil, queue: OperationQueue? = nil, using handler: @escaping (T) -> Void) {
         
         notificationHandlers.add(
-            observe(notification: notification, object: object, queue: queue, using: handler)
+            _observe(notification, object: object, queue: queue, using: handler)
         )
     }
     
