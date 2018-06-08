@@ -85,9 +85,9 @@
 		OBJ_27 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/tomohiro/Documents/Xcode/Libraries/Ocean/.build/checkouts/Swim-2253645609750282078/Package.swift"; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		OBJ_9 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
-		"Ocean::Ocean::Product" /* Ocean.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Ocean.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"Ocean::Ocean::Product" /* Ocean.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Ocean.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"Ocean::OceanTests::Product" /* OceanTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = OceanTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		"Swim::Swim::Product" /* Swim.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Swim.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"Swim::Swim::Product" /* Swim.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Swim.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,7 +172,7 @@
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				B12089BD20C90EEB000ECFD7 /* README.md */,
@@ -182,7 +182,6 @@
 				OBJ_22 /* Dependencies */,
 				OBJ_28 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_7 /* Sources */ = {
@@ -306,7 +305,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_28 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
