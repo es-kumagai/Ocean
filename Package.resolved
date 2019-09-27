@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Swim",
+        "repositoryURL": "https://github.com/es-kumagai/Swim",
+        "state": {
+          "branch": "master",
+          "revision": "36b493ee8bb65c90fe1ac327d7a8aea7251e8918",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}
