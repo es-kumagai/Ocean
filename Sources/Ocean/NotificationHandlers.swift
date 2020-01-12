@@ -30,7 +30,7 @@ extension Notification {
         
         internal func release(_ token: Token) {
             
-            if let index = tokens.index(of: token) {
+            if let index = tokens.firstIndex(of: token) {
                 
                 tokens.remove(at: index)
             }
