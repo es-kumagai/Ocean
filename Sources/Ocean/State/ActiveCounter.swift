@@ -14,6 +14,9 @@ public final class ActiveCounter {
 	var _table =  WeakMultiSet<AnyObject>()
     var _tableManageThread = DispatchQueue(label: "jp.ez-style.thread.active-counter-management")
 
+    public init() {
+    }
+    
 	public var activeCount: Int {
 		
 		_invoke {
