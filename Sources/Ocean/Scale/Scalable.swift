@@ -12,38 +12,71 @@ public protocol Scalable {
     func scaled(by scale: Scale) -> Self
 }
 
-extension Double : ScaleType & Scalable {
+extension BinaryInteger where Self : Scalable, Scale.Value == Self {
     
-    public var value: Double {
-    
-        self
-    }
-    
-    public init(_ value: Double) {
+    public func scaled<T: ScaleType>(by scale: T) -> Self where T.Value == Self {
         
-        self = value
-    }
-    
-    public func scaled(by scale: Scale<Double>) -> Double {
-        
-        self * scale.value
+        scale.applying(to: value)
     }
 }
 
-extension Float : ScaleType & Scalable {
+extension BinaryFloatingPoint where Self : Scalable, Scale.Value == Self {
     
-    public var value: Float {
-    
-        self
-    }
-    
-    public init(_ value: Float) {
+    public func scaled<T: ScaleType>(by scale: T) -> Self where T.Value == Self {
         
-        self = value
-    }
-
-    public func scaled(by scale: Scale<Float>) -> Float {
-        
-        self * scale.value
+        scale.applying(to: value)
     }
 }
+
+extension Int : Scalable {
+    public typealias Scale = Int
+}
+
+extension UInt : Scalable {
+    public typealias Scale = UInt
+}
+
+extension Int8 : Scalable {
+    public typealias Scale = Int8
+}
+
+extension UInt8 : Scalable {
+    public typealias Scale = UInt8
+}
+
+extension Int16 : Scalable {
+    public typealias Scale = Int16
+}
+
+extension UInt16 : Scalable {
+    public typealias Scale = UInt16
+}
+
+extension Int32 : Scalable {
+    public typealias Scale = Int32
+}
+
+extension UInt32 : Scalable {
+    public typealias Scale = UInt32
+}
+
+extension Int64 : Scalable {
+    public typealias Scale = Int64
+}
+
+extension UInt64 : Scalable {
+    public typealias Scale = UInt64
+}
+
+extension Float : Scalable {
+    public typealias Scale = Float
+}
+
+extension Double : Scalable {
+    public typealias Scale = Double
+}
+
+extension Float80 : Scalable {
+    public typealias Scale = Float80
+}
+
