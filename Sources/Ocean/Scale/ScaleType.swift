@@ -24,3 +24,11 @@ extension ScaleType {
         return value.scaled(by: self)
     }
 }
+
+extension ScaleType where Value : ExpressibleByIntegerLiteral {
+    
+    public var actualSize: Bool {
+        
+        value == 1
+    }
+}
