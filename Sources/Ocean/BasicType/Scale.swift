@@ -14,7 +14,7 @@ public struct Scale<T> : ScaleType where T : Numeric {
         self.value = value
     }
     
-    public var actualSize: Bool {
+    public var meansActualSize: Bool {
         
         value == 1
     }
