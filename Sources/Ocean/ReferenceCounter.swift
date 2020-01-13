@@ -12,27 +12,27 @@ public struct ReferenceCounter {
     private var _count: Int
     
     public init() {
-    
+        
         _count = 0
     }
-
-    public var count: Int {
     
-        return ReferenceCounter.queue.sync {
+    public var count: Int {
+        
+        ReferenceCounter.queue.sync {
             
-            return _count
+            _count
         }
     }
     
-    public var retained: Bool {
+    public var isRetained: Bool {
         
-        return ReferenceCounter.queue.sync {
-
+        ReferenceCounter.queue.sync {
+            
             _count != 0
         }
     }
     
-    public mutating func retain(adding count: Int = 1) {
+    public mutating func countRetain(adding count: Int = 1) {
         
         ReferenceCounter.queue.sync {
             
@@ -40,14 +40,22 @@ public struct ReferenceCounter {
         }
     }
     
-    public mutating func release() {
+    public mutating func countRelease() {
         
         ReferenceCounter.queue.sync {
-
+            
             if _count > 0 {
                 
                 _count -= 1
             }
+        }
+    }
+    
+    public mutating func countReset() {
+        
+        ReferenceCounter.queue.sync {
+            
+            _count = 0
         }
     }
 }
