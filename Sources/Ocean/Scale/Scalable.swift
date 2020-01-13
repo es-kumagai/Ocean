@@ -12,7 +12,17 @@ public protocol Scalable {
     func scaled(by scale: Scale) -> Self
 }
 
-extension Double : Scalable {
+extension Double : ScaleType & Scalable {
+    
+    public var value: Double {
+    
+        self
+    }
+    
+    public init(_ value: Double) {
+        
+        self = value
+    }
     
     public func scaled(by scale: Scale<Double>) -> Double {
         
@@ -20,8 +30,18 @@ extension Double : Scalable {
     }
 }
 
-extension Float : Scalable {
+extension Float : ScaleType & Scalable {
     
+    public var value: Float {
+    
+        self
+    }
+    
+    public init(_ value: Float) {
+        
+        self = value
+    }
+
     public func scaled(by scale: Scale<Float>) -> Float {
         
         self * scale.value
