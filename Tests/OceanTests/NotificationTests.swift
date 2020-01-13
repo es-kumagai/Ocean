@@ -52,16 +52,18 @@ class OceanTests: XCTestCase {
         Notification.A(value: "A1", semaphore: semaphoreA1).post()
         XCTAssertEqual(wait(semaphoreA1), .timedOut)
 
-        var tokenA: Notification.Token = Ocean.observe(Notification.A.self) { notification in
+        let tokenA: Notification.Token = Ocean.observe(Notification.A.self) { notification in
 
             XCTAssertEqual(notification.value, "A2")
             notification.semaphore.signal()
         }
         
+        let _ = tokenA
+        
         Notification.A(value: "A2", semaphore: semaphoreA2).post()
         XCTAssertEqual(wait(semaphoreA2), .success)
         
-        var tokenB: Notification.Token = Ocean.observe(Notification.B.self) { notification in
+        let tokenB: Notification.Token = Ocean.observe(Notification.B.self) { notification in
             
             XCTAssertEqual(notification.value, "B2")
             notification.semaphore.signal()
