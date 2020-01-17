@@ -18,6 +18,12 @@ class ScaleTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
+    func testActualScale() {
+    
+        XCTAssertEqual(Scale<Int>.actual.value, 1)
+        XCTAssertEqual(Scale<Double>.actual, Scale<Double>(1))
+    }
+    
     func testScaleStructTests() {
         
         typealias DoubleScale = Scale<Double>

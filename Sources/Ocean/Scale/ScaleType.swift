@@ -8,7 +8,10 @@
 public protocol ScaleType : Equatable {
 
     associatedtype Value : Numeric
-
+    
+    /// [Ocean] Actual scale.
+    static var actual: Self { get }
+    
     var value: Value { get }
     
     init(_ value: Value)
@@ -30,6 +33,11 @@ extension ScaleType where Value : ExpressibleByIntegerLiteral {
     public var meansActualSize: Bool {
         
         value == 1
+    }
+    
+    public static var actual: Self {
+        
+        return Self(1)
     }
 }
 

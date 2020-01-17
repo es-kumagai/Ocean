@@ -7,16 +7,11 @@
 
 public struct Scale<T> : ScaleType where T : Numeric {
     
-    public var value:T
+    public var value: T
     
     public init(_ value: T) {
         
         self.value = value
-    }
-    
-    public var meansActualSize: Bool {
-        
-        value == 1
     }
 }
 
