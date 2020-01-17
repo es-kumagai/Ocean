@@ -12,6 +12,21 @@ public protocol Scalable {
     func scaled(by scale: Scale) -> Self
 }
 
+public protocol HavingScale {
+    
+    associatedtype Scale : ScaleType
+    
+    var scale: Scale { get }
+}
+
+extension Scalable {
+
+    public func scaled<T: HavingScale>(by item: T) -> Self where Scale == T.Scale {
+        
+        return scaled(by: item.scale)
+    }
+}
+
 extension BinaryInteger where Self : Scalable, Scale.Value == Self {
     
     public func scaled<T: ScaleType>(by scale: T) -> Self where T.Value == Self {
