@@ -55,7 +55,7 @@ class CommonCryptoTests: XCTestCase {
             let sharedKey = Cryption.AES.generateRandomSharedKeyData()
             let chiper = Cryption.AES(sharedKey: sharedKey)!
             
-            let clearText = "Ocean @ EZ-NET"
+            let clearText = "EZ-NET CommonCrypto Wrapper"
             let encryptedData = try chiper.encrypto(clearText, initialVector: ivRandom)
             let decryptedText = try chiper.decrypto(encryptedData, initialVector: ivRandom)
             
@@ -78,7 +78,7 @@ class CommonCryptoTests: XCTestCase {
             let sharedKey = Cryption.AES.generateRandomSharedKeyData()
             let chiper = Cryption.AES(sharedKey: sharedKey)!
             
-            let clearText = "Ocean @ EZ-NET"
+            let clearText = "EZ-NET Ocean Framework"
             let encryptedData = try chiper.encrypto(clearText, initialVector: iv1)
             
             do {
