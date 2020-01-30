@@ -44,9 +44,7 @@ extension Cryption {
             sharedKey.deallocate()
         }
         
-        public func encrypto(_ text: String, initialVector iv: Data? = nil) throws -> Data {
-            
-            let ivData = iv ?? AES.generateRandomInitialVectorData()
+        public func encrypto(_ text: String, initialVector ivData: Data) throws -> Data {
             
             guard ivData.count == AES.initialVectorSize else {
                 
@@ -104,9 +102,7 @@ extension Cryption {
             return Data(cryptedBuffer)
         }
         
-        public func decrypto(_ cryptedTextData: Data, initialVector iv: Data? = nil) throws -> String {
-            
-            let ivData = iv ?? AES.generateRandomInitialVectorData()
+        public func decrypto(_ cryptedTextData: Data, initialVector ivData: Data) throws -> String {
             
             guard ivData.count == AES.initialVectorSize else {
                 

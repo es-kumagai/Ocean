@@ -31,7 +31,7 @@ class CommonCryptoTests: XCTestCase {
         
         do {
             
-            let ivStatic = "rPU\\Xs^RUBiwz;w1".data(using: .ascii)
+            let ivStatic = "rPU\\Xs^RUBiwz;w1".data(using: .ascii)!
             let sharedKey = "Sa||`w\'(,3oIq]ZQ"
             let chiper = Cryption.AES(sharedKey: sharedKey)!
             
