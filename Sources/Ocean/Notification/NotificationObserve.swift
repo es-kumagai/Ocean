@@ -53,7 +53,7 @@ private func _observe<T: NotificationProtocol, Observer: NSObjectProtocol>(_ not
 
 extension NotificationObservable {
     
-    public func observe<T: NotificationProtocol, Observer: NSObjectProtocol>(notification: T.Type, observer: Observer, selector: Selector, object: Any? = nil) {
+    public func observe<T: NotificationProtocol, Observer: NSObjectProtocol>(_ notification: T.Type, observer: Observer, selector: Selector, object: Any? = nil) {
         
         notificationHandlers.add(
             _observe(notification, observer: observer, selector: selector, object: object)
@@ -67,7 +67,7 @@ extension NotificationObservable {
         )
     }
     
-    public func observe<T: NotificationProtocol>(notification: T.Type, object: Any? = nil, queue: OperationQueue? = nil, using handler: @escaping (T) -> Void) {
+    public func observe<T: NotificationProtocol>(_ notification: T.Type, object: Any? = nil, queue: OperationQueue? = nil, using handler: @escaping (T) -> Void) {
         
         notificationHandlers.add(
             _observe(notification, object: object, queue: queue, using: handler)
