@@ -78,7 +78,7 @@ extension Cryption {
                 ivBuffer.deallocate()
             }
             
-            let cryptedBufferLength = Int(ceil(Double(textData.count) / Double(BlockSize.aes128.rawValue))) * BlockSize.aes128.rawValue
+            let cryptedBufferLength = Int(ceil(Double(textData.count / BlockSize.aes128.rawValue)) + 1) * BlockSize.aes128.rawValue
             let cryptedBuffer = UnsafeMutableBufferPointer<UInt8>.allocate(capacity: cryptedBufferLength)
             
             defer {
@@ -168,7 +168,7 @@ extension Cryption {
             }
             
             
-            guard let clearText = String(bytes: clearTextData.prefix(decryptionByteCount), encoding: .utf8) else {
+            guard let clearText = String(bytes: clearTextData.prefix(decryptionByteCount), encoding: .ascii) else {
                 
                 throw CryptionError.representingError
             }
