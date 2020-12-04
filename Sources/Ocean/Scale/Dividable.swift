@@ -56,4 +56,7 @@ extension Int64 : Dividable {}
 extension UInt64 : Dividable {}
 extension Float : Dividable {}
 extension Double : Dividable {}
+
+#if !arch(arm64)
 extension Float80 : Dividable {}
+#endif

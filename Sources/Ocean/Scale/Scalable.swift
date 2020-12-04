@@ -91,7 +91,8 @@ extension Double : Scalable {
     public typealias Scale = Double
 }
 
+#if !arch(arm64)
 extension Float80 : Scalable {
     public typealias Scale = Float80
 }
-
+#endif

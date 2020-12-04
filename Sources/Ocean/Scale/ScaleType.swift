@@ -53,4 +53,7 @@ extension Int64 : ScaleType {}
 extension UInt64 : ScaleType {}
 extension Float : ScaleType {}
 extension Double : ScaleType {}
+
+#if !arch(arm64)
 extension Float80 : ScaleType {}
+#endif
