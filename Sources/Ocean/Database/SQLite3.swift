@@ -10,14 +10,14 @@ import Swim
 
 extension SQLite3 {
     
-    public func makeStatement(fromResource resource: String, ofType type: String, bundle: Bundle? = nil, prepare: ((Statement) throws -> Void)? = nil) throws -> Statement {
+    public func prepareStatement(fromResource resource: String, ofType type: String, bundle: Bundle? = nil, prepare: ((Statement) throws -> Void)? = nil) throws -> Statement {
         
         let bundle = bundle ?? Bundle.main
         let path = bundle.path(forResource: resource, ofType: type)!
         
         let sql = try String(contentsOfFile: path)
         
-        return try makeStatement(with: sql, prepare: prepare)
+        return try prepareStatement(with: sql, prepare: prepare)
     }
 
     @discardableResult
