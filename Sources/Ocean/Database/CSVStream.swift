@@ -11,14 +11,45 @@ public final class CSVInputStream<Target> where Target : CSVLineConvertible {
     
     private var stream: TextFileInputStream
 
-    public init(path: String) throws {
-        
-        stream = try TextFileInputStream(path: path)
+    public enum HandlingFirstLine {
+    
+        case includeInData
+        case skipAsHeader
+        case strictlyCheckAsHeader
     }
     
-    public convenience init(path: String, target: Target.Type) throws {
+    public init(path: String, handlingFirstLine: HandlingFirstLine = .includeInData) throws {
         
-        try self.init(path: path)
+        stream = try TextFileInputStream(path: path)
+        
+        switch handlingFirstLine {
+        
+        case .includeInData:
+            break
+            
+        case .skipAsHeader:
+            try stream.skipLine()
+        
+        case .strictlyCheckAsHeader:
+            
+            let expectedHeader = Self.header
+            let actualHeader = try readAsHeader()
+            
+            guard expectedHeader == actualHeader else {
+                
+                throw FileStreamError.headerMismatch(expected: expectedHeader, actual: actualHeader)
+            }
+        }
+    }
+    
+    public convenience init(path: String, target: Target.Type, handlingFirstLine: HandlingFirstLine = .includeInData) throws {
+        
+        try self.init(path: path, handlingFirstLine: handlingFirstLine)
+    }
+    
+    public static var header: [String] {
+    
+        return Target.csvColumns.map(\.name)
     }
     
     public var isEOF: Bool {
@@ -29,6 +60,11 @@ public final class CSVInputStream<Target> where Target : CSVLineConvertible {
     public func rewind() {
     
         stream.rewind()
+    }
+    
+    public func skip() throws {
+        
+        try stream.skipLine()
     }
     
     public func read() throws -> Target? {
@@ -46,6 +82,18 @@ public final class CSVInputStream<Target> where Target : CSVLineConvertible {
             
             throw FileStreamError.invalidLine(String(describing: error))
         }
+    }
+    
+    public func readAsHeader() throws -> [String]? {
+        
+        guard let line = try stream.readLine() else {
+            
+            return nil
+        }
+        
+        let elements = CSV.split(CSV.removedTrailingNewline(of: line))
+        
+        return elements.map { $0 ?? "" }
     }
 }
 
@@ -88,7 +136,7 @@ public final class CSVOutputStream<Target> where Target : CSVLineConvertible {
         try stream.flush()
     }
     
-    public func write(_ value: Target) throws {
+    public func write(_ value: Target) {
         
         stream.write(value.toCSVLine())
     }
@@ -96,5 +144,15 @@ public final class CSVOutputStream<Target> where Target : CSVLineConvertible {
     public func errorDetectableWrite(_ value: Target) throws {
         
         try stream.errorDetectableWrite(value.toCSVLine())
+    }
+    
+    public func writeHeader() {
+        
+        stream.write(Target.csvHeaderLine)
+    }
+    
+    public func errorDetectableWriteHeader() throws {
+        
+        try stream.errorDetectableWrite(Target.csvHeaderLine)
     }
 }

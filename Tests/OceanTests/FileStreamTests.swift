@@ -34,6 +34,31 @@ extension CSVValue {
     static var csvDefaultValue: CSVValue = CSVValue(id: 0, name: "", comment: nil)
 }
 
+private struct CSVValue2 : CSVLineConvertible, Equatable {
+    
+    var id: Int
+    var name: String
+    var flag: Double?
+}
+
+extension CSVValue2 {
+    
+    init(_ value: CSVValue2) {
+        
+        self = value
+    }
+    
+    @CSV.ColumnList
+    static var csvColumns: [CSVColumn] {
+        
+        CSVColumn("id", keyPath: \.id)
+        CSVColumn("name", keyPath: \.name)
+        CSVColumn("flag", keyPath: \.flag)
+    }
+    
+    static var csvDefaultValue = CSVValue2(id: 0, name: "", flag: nil)
+}
+
 class FileStreamTests: XCTestCase {
 
     func makeTemporaryFileURL(withExtension extension: String) -> URL {
@@ -131,6 +156,8 @@ class FileStreamTests: XCTestCase {
         let input2 = try TextFileInputStream(path: temporaryFilePath)
         
         XCTAssertFalse(input2.isEOF)
+        try input2.skipLine()
+        XCTAssertFalse(input2.isEOF)
         let line1b = input2.next()
         XCTAssertFalse(input2.isEOF)
         let line2b = input2.next()
@@ -140,16 +167,13 @@ class FileStreamTests: XCTestCase {
         let line4b = input2.next()
         XCTAssertFalse(input2.isEOF)
         let line5b = input2.next()
-        XCTAssertFalse(input2.isEOF)
-        let line6b = input2.next()
         XCTAssertTrue(input2.isEOF)
 
-        XCTAssertEqual(line1b, "ABCD")
-        XCTAssertEqual(line2b, "EFGH")
-        XCTAssertEqual(line3b, "")
-        XCTAssertEqual(line4b, "ABCD")
-        XCTAssertEqual(line5b, "EFGH")
-        XCTAssertNil(line6b)
+        XCTAssertEqual(line1b, "EFGH")
+        XCTAssertEqual(line2b, "")
+        XCTAssertEqual(line3b, "ABCD")
+        XCTAssertEqual(line4b, "EFGH")
+        XCTAssertNil(line5b)
     }
     
     func testReadWriteCSV() throws {
@@ -194,13 +218,16 @@ class FileStreamTests: XCTestCase {
         let value1 = CSVValue(id: 8, name: "AB", comment: "TEST")
         let value2 = CSVValue(id: 16, name: "CD", comment: nil)
         
-        try output.write(value1)
-        try output.write(value2)
+        try output.errorDetectableWriteHeader()
+        try output.errorDetectableWrite(value1)
+        try output.errorDetectableWrite(value2)
 
         XCTAssertNoThrow(try output.flush())
         
         let input = try CSVInputStream(path: temporaryFilePath, target: CSVValue.self)
         
+        XCTAssertFalse(input.isEOF)
+        let header = try input.readAsHeader()
         XCTAssertFalse(input.isEOF)
         let line1 = input.next()
         XCTAssertFalse(input.isEOF)
@@ -209,8 +236,30 @@ class FileStreamTests: XCTestCase {
         let line3 = input.next()
         XCTAssertTrue(input.isEOF)
 
+        XCTAssertEqual(header, CSVValue.csvColumns.map(\.name))
         XCTAssertEqual(line1, value1)
         XCTAssertEqual(line2, value2)
         XCTAssertNil(line3)
+
+        XCTAssertNoThrow(try CSVInputStream<CSVValue2>(path: temporaryFilePath, handlingFirstLine: .includeInData))
+        XCTAssertNoThrow(try CSVInputStream<CSVValue2>(path: temporaryFilePath, handlingFirstLine: .skipAsHeader))
+        
+        XCTAssertThrowsError(try CSVInputStream<CSVValue2>(path: temporaryFilePath, handlingFirstLine: .strictlyCheckAsHeader)) { error in
+            
+            guard let fileStreamError = error as? FileStreamError else {
+                
+                XCTFail("Unexpected error: \(error)")
+                return
+            }
+            
+            switch fileStreamError {
+            
+            case .headerMismatch(expected: let expected, actual: let actual):
+                XCTAssertNotEqual(expected, actual)
+                
+            default:
+                XCTFail("Unexpected error: \(error)")
+            }
+        }
     }
 }

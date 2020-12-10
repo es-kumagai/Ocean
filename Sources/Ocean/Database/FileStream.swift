@@ -16,6 +16,7 @@ public enum FileStreamError : Error {
     case failedToWrite(String, description: String)
     case failedToFlush(description: String)
     case invalidLine(String)
+    case headerMismatch(expected: [String], actual: [String]?)
 }
 
 public final class TextFileInputStream {
@@ -98,7 +99,6 @@ public final class TextFileInputStream {
         
         while let word = try readWord() {
             
-            print(word)
             guard word != "\n" else {
                 
                 break
@@ -108,6 +108,17 @@ public final class TextFileInputStream {
         }
         
         return result
+    }
+    
+    public func skipLine() throws {
+        
+        while let word = try readWord() {
+            
+            if word == "\n" {
+                
+                return
+            }
+        }
     }
 }
 
