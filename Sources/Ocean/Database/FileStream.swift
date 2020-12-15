@@ -84,13 +84,28 @@ public final class TextFileInputStream {
     }
     
     public func readLine() throws -> String? {
+
+        return try readUntil { $0 == "\n" }
+    }
+    
+    public func readTo(_ word: String) throws -> String? {
+
+        return try readUntil { $0 == word}
+    }
+    
+    public func readTo(_ wordSet: Set<String>) throws -> String? {
+
+        return try readUntil { wordSet.contains($0) }
+    }
+    
+    public func readUntil(_ predicate: (String) -> Bool) throws -> String? {
         
         guard var result = try readWord() else {
             
             return nil
         }
         
-        guard result != "\n" else {
+        guard !predicate(result) else {
             
             return ""
         }
@@ -99,7 +114,7 @@ public final class TextFileInputStream {
         
         while let word = try readWord() {
             
-            guard word != "\n" else {
+            guard !predicate(word) else {
                 
                 break
             }
@@ -112,13 +127,52 @@ public final class TextFileInputStream {
     
     public func skipLine() throws {
         
-        while let word = try readWord() {
+        try skipTo("\n")
+    }
+
+    
+    /// [Ocean] Skipping file location until a word specified by `word` appears.
+    ///
+    /// - Parameter word: The word to skipping file location to.
+    /// - Throws: FileStreamError.failedToRead
+    /// - Returns: If the word that appears at last location, returns true. Otherwise returns false.
+    @discardableResult
+    public func skipTo(_ word: String) throws -> Bool {
+        
+        while let currentWord = try readWord() {
             
-            if word == "\n" {
+            if currentWord == word {
                 
-                return
+                return true
             }
         }
+        
+        return false
+    }
+    
+    /// [Ocean] Skipping file location until a word in `wordSet` appears.
+    ///
+    /// - Parameter wordSet: Words to skipping file location to.
+    /// - Throws: FileStreamError.failedToRead
+    /// - Returns: The word that appears at last location. If returns nil, the word listed in `wordSet` is not appeared.
+    @discardableResult
+    public func skipTo(_ wordSet: Set<String>) throws -> String? {
+        
+        return try skipUntil { wordSet.contains($0) }
+    }
+    
+    @discardableResult
+    public func skipUntil(_ predicate: (String) -> Bool) throws -> String? {
+        
+        while let word = try readWord() {
+            
+            if predicate(word) {
+                
+                return word
+            }
+        }
+        
+        return nil
     }
 }
 
