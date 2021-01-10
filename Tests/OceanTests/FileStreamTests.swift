@@ -23,7 +23,7 @@ extension CSVValue {
         self = value
     }
     
-    @CSV.ColumnList
+    @CSV.ColumnDeclaration
     static var csvColumns: [CSVColumn] {
         
         CSVColumn("id", keyPath: \.id)
@@ -48,7 +48,7 @@ extension CSVValue2 {
         self = value
     }
     
-    @CSV.ColumnList
+    @CSV.ColumnDeclaration
     static var csvColumns: [CSVColumn] {
         
         CSVColumn("id", keyPath: \.id)
