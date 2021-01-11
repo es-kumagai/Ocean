@@ -17,17 +17,17 @@ public protocol NotificationProtocol {
 
 extension NotificationProtocol {
     
-    internal static var notificationIdentifier: String {
+    public static var notificationIdentifier: String {
         
         return "\(notificationIdentifierPrefix)\(type(of: self))"
     }
     
-    internal static var notificationName: Notification.Name {
+    public static var notificationName: Notification.Name {
         
         return .init(notificationIdentifier)
     }
     
-    internal var rawNotification: Notification {
+    public var rawNotification: Notification {
         
         return Notification(name: Self.notificationName, object: self, userInfo: nil)
     }
