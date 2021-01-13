@@ -33,4 +33,11 @@ extension NotificationProtocol {
     }
 }
 
+extension Notification {
+    
+    public init<T: NotificationProtocol>(_ notification: T) {
+        
+        self = notification.rawNotification
+    }
+}
 
