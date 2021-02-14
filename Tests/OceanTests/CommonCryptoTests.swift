@@ -94,7 +94,5 @@ class CommonCryptoTests: XCTestCase {
         catch {
             XCTFail("\(error)")
         }
-        
     }
-    
 }
