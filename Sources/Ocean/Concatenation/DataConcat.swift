@@ -57,22 +57,22 @@ extension DataConcatProcess {
 @_functionBuilder
 public struct DataConcat {
 
-    static func buildFinalResult(_ component: DataConcatProcess) -> Data {
+    public static func buildFinalResult(_ component: DataConcatProcess) -> Data {
         
         return component.predicate(Data())
     }
     
-    static func buildExpression<T : DataConvertible>(_ expression: T) -> DataConcatProcess {
+    public static func buildExpression<T : DataConvertible>(_ expression: T) -> DataConcatProcess {
         
         return .appending(expression.data)
     }
     
-    static func buildExpression(_ expression: DataConcatProcess) -> DataConcatProcess {
+    public static func buildExpression(_ expression: DataConcatProcess) -> DataConcatProcess {
         
         return expression
     }
     
-    static func buildBlock(_ components: DataConcatProcess...) -> DataConcatProcess {
+    public static func buildBlock(_ components: DataConcatProcess...) -> DataConcatProcess {
         
         return DataConcatProcess {
 
@@ -80,17 +80,17 @@ public struct DataConcat {
         }
     }
     
-    static func buildEither(first component: DataConcatProcess) -> DataConcatProcess {
+    public static func buildEither(first component: DataConcatProcess) -> DataConcatProcess {
         
         return DataConcatProcess(component.predicate)
     }
     
-    static func buildEither(second component: DataConcatProcess) -> DataConcatProcess {
+    public static func buildEither(second component: DataConcatProcess) -> DataConcatProcess {
         
         return DataConcatProcess(component.predicate)
     }
     
-    static func buildOptional(_ component: DataConcatProcess?) -> DataConcatProcess {
+    public static func buildOptional(_ component: DataConcatProcess?) -> DataConcatProcess {
         
         guard let component = component else {
             
@@ -100,7 +100,7 @@ public struct DataConcat {
         return DataConcatProcess(component.predicate)
     }
     
-    static func buildArray(_ components: [DataConcatProcess]) -> DataConcatProcess {
+    public static func buildArray(_ components: [DataConcatProcess]) -> DataConcatProcess {
         
         return DataConcatProcess {
             
