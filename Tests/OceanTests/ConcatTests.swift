@@ -143,6 +143,13 @@ class ConcatTests: XCTestCase {
             data3
         }
 
+        let test12 = Data.concat {
+            
+            data1
+            nil as Data?
+            data3
+        }
+
         XCTAssertEqual(test0, Data())
         XCTAssertEqual(test1, "AB".data(using: .utf8))
         XCTAssertEqual(test2, "ACB".data(using: .utf8))
@@ -155,5 +162,6 @@ class ConcatTests: XCTestCase {
         XCTAssertEqual(test9, "A".data(using: .utf8))
         XCTAssertEqual(test10, "AC".data(using: .utf8))
         XCTAssertEqual(test11, "ABBBBBC".data(using: .utf8))
+        XCTAssertEqual(test12, "AC".data(using: .utf8))
     }
 }
