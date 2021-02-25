@@ -87,11 +87,73 @@ class ConcatTests: XCTestCase {
             data3
         }
         
+        let test6 = Data.concat {
+            
+            data1
+            
+            if condition == 0 {
+                
+                data2
+            }
+            
+            data3
+        }
+
+        let test7 = Data.concat {
+            
+            data1
+            
+            if condition != 0 {
+                
+                data2
+            }
+            
+            data3
+        }
+        
+        let test8 = Data.concat {
+            
+            data1
+            data2
+            data3
+            DataConcatProcess.dropLast()
+        }
+
+        let test9 = Data.concat {
+            
+            data1
+            data2
+            data3
+            DataConcatProcess.dropLast()
+            DataConcatProcess.dropLast()
+        }
+
+        let test10 = Data.concat {
+            
+            data1
+            data2
+            DataConcatProcess.dropLast()
+            data3
+        }
+        
+        let test11 = Data.concat {
+            
+            data1
+            DataConcatProcess.repeating(data2, count: 5)
+            data3
+        }
+
         XCTAssertEqual(test0, Data())
         XCTAssertEqual(test1, "AB".data(using: .utf8))
         XCTAssertEqual(test2, "ACB".data(using: .utf8))
         XCTAssertEqual(test3, "ACB".data(using: .utf8))
         XCTAssertEqual(test4, "ABABC".data(using: .utf8))
         XCTAssertEqual(test5, "ABDEFC".data(using: .utf8))
+        XCTAssertEqual(test6, "ABC".data(using: .utf8))
+        XCTAssertEqual(test7, "AC".data(using: .utf8))
+        XCTAssertEqual(test8, "AB".data(using: .utf8))
+        XCTAssertEqual(test9, "A".data(using: .utf8))
+        XCTAssertEqual(test10, "AC".data(using: .utf8))
+        XCTAssertEqual(test11, "ABBBBBC".data(using: .utf8))
     }
 }
