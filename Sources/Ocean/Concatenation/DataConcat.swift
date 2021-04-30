@@ -54,7 +54,7 @@ extension DataConcatProcess {
 }
 
 /// [Ocean] A result builder to concatenate multiple data.
-@_functionBuilder
+@resultBuilder
 public struct DataConcat {
 
     public static func buildFinalResult(_ component: DataConcatProcess) -> Data {
