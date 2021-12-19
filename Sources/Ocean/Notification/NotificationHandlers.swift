@@ -18,6 +18,11 @@ extension Notification {
             self.tokens = []
         }
         
+        internal init(tokens: [Token]) {
+            
+            self.tokens = tokens
+        }
+        
         public func releaseAll() {
         
             tokens.removeAll()
