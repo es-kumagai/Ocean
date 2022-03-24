@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 public protocol NotificationObservable {
 
     var notificationHandlers: Notification.Handlers { get }
