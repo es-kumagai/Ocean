@@ -26,9 +26,6 @@ extension ScaleType {
         
         self.value * value
     }
-}
-
-extension ScaleType where Value : ExpressibleByIntegerLiteral {
     
     public var meansActualSize: Bool {
         
