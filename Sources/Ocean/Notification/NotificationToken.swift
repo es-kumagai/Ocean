@@ -9,7 +9,7 @@ import Foundation
 
 extension Notification {
     
-    public actor Token : Equatable {
+    public final class Token : Equatable {
         
         private var token: Any?
         

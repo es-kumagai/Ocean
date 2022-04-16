@@ -70,24 +70,38 @@ extension NotificationObservable {
     
     public func release(notification token: Notification.Token) {
         
-        notificationHandlers.release(token)
+        Task {
+            await notificationHandlers.release(token)
+        }
     }
 }
 
 extension Notification.Handlers {
     
-    public func observe<T: NotificationProtocol>(_ notification: T.Type, object: Any? = nil, queue: OperationQueue? = nil, using handler: @escaping (T) -> Void) {
+    public nonisolated func observe<T: NotificationProtocol>(_ notification: T.Type, object: Any? = nil, queue: OperationQueue? = nil, using handler: @escaping (T) -> Void) {
 
-        add(_observe(notification, object: object, queue: queue, using: handler))
+        let token = _observe(notification, object: object, queue: queue, using: handler)
+        
+        Task {
+            await add(token)
+        }
     }
 
-    public func observe(notificationNamed name: Notification.Name, object: Any? = nil, queue: OperationQueue? = nil, using handler: @escaping (Notification) -> Void) {
+    public nonisolated func observe(notificationNamed name: Notification.Name, object: Any? = nil, queue: OperationQueue? = nil, using handler: @escaping (Notification) -> Void) {
+
+        let token = _observe(notificationNamed: name, object: object, queue: queue, using: handler)
         
-        add(_observe(notificationNamed: name, object: object, queue: queue, using: handler))
+        Task {
+            await add(token)
+        }
     }
 
-    public func observe<T: NotificationProtocol, Observer: NSObjectProtocol>(_ notification: T.Type, observer: Observer, selector: Selector, object: Any? = nil) {
+    public nonisolated func observe<T: NotificationProtocol, Observer: NSObjectProtocol>(_ notification: T.Type, observer: Observer, selector: Selector, object: Any? = nil) {
         
-        add(_observe(notification, observer: observer, selector: selector, object: object))
+        let token = _observe(notification, observer: observer, selector: selector, object: object)
+        
+        Task {
+            await add(token)
+        }
     }
 }

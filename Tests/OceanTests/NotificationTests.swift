@@ -74,7 +74,7 @@ class OceanTests: XCTestCase {
         Notification.B(value: "B2", semaphore: semaphoreB2).post()
         XCTAssertEqual(wait(semaphoreB2), .success)
         
-        await tokenB.release()
+        tokenB.release()
         
         Notification.B(value: "B3", semaphore: semaphoreB3).post()
         XCTAssertEqual(wait(semaphoreB3), .timedOut, "Token B was already released.")

@@ -9,7 +9,7 @@ import Foundation
 
 extension Notification {
     
-    public final class Handlers {
+    public actor Handlers {
         
         private var tokens: [Token]
         
