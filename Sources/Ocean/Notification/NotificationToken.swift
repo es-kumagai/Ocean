@@ -36,7 +36,7 @@ extension Notification {
         
         public static func == (lhs: Token, rhs: Token) -> Bool {
             
-            return lhs === rhs
+            lhs === rhs
         }
     }
 }
