@@ -9,10 +9,10 @@
 /// Report the count activity information in irregular timing.
 public final class ESActiveCounterReportNotification : NotificationProtocol {
 	
-	public private(set) var isActive: Bool
-	public private(set) var activeCount: Int
+	public let isActive: Bool
+	public let activeCount: Int
 	
-	private var source: ActiveCounter
+	private unowned let source: ActiveCounter
 	
 	/// The initializer must call in ESActiveCounter._tableManageThread queue.
 	internal init(sender: ActiveCounter) {

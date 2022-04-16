@@ -7,10 +7,9 @@
 
 import Foundation
 
-@MainActor
 public protocol NotificationObservable {
 
-    var notificationHandlers: Notification.Handlers { get }
+    nonisolated var notificationHandlers: Notification.Handlers { get }
 }
 
 public func observe<T: NotificationProtocol>(_ notification: T.Type, object: Any? = nil, queue: OperationQueue? = nil, using handler: @escaping (T) -> Void) -> Notification.Token {
