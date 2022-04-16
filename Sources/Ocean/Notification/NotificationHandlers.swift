@@ -9,7 +9,7 @@ import Foundation
 
 extension Notification {
     
-    public actor Handlers {
+    public actor Handlers : Sendable {
         
         private var tokens: [Token]
         
@@ -23,22 +23,33 @@ extension Notification {
             self.tokens = tokens
         }
         
-        public func releaseAll() {
+        public nonisolated func releaseAll() {
         
-            tokens.removeAll()
-        }
-        
-        internal func add(_ token: Token) {
-            
-            tokens.append(token)
-        }
-        
-        internal func release(_ token: Token) {
-            
-            if let index = tokens.firstIndex(of: token) {
-                
-                tokens.remove(at: index)
+            Task {
+
+                await isolatedReleaseAll()
             }
+        }
+    }
+}
+
+internal extension Notification.Handlers {
+        
+    func isolatedReleaseAll() {
+        
+        tokens.removeAll()
+    }
+    
+    func add(_ token: Notification.Token) {
+        
+        tokens.append(token)
+    }
+    
+    func release(_ token: Notification.Token) {
+        
+        if let index = tokens.firstIndex(of: token) {
+            
+            tokens.remove(at: index)
         }
     }
 }
