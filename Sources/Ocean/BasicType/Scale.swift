@@ -15,6 +15,10 @@ public struct Scale<T> : ScaleType where T : Numeric {
     }
 }
 
+extension Scale : Sendable where T : Sendable {
+    
+}
+
 extension Scale : ExpressibleByIntegerLiteral where T : _ExpressibleByBuiltinIntegerLiteral {
     
     public init(integerLiteral value: T) {
@@ -41,8 +45,4 @@ extension Scale : CustomStringConvertible {
 
 extension Scale : Equatable {
     
-    public static func == (lhs: Scale, rhs: Scale) -> Bool {
-        
-        return lhs.value == rhs.value
-    }
 }
