@@ -26,7 +26,9 @@ let package = Package(
             name: "Ocean",
             dependencies: ["Swim"],
             swiftSettings: [
-                .define("-enable-library-evolution")
+                .unsafeFlags([
+                    "-enable-library-evolution",
+                ])
             ]
         ),
         .testTarget(
