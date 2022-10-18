@@ -11,12 +11,12 @@ extension Notification {
     
     public final class Token : Equatable {
         
-        private var token: Any?
+        private var rawToken: Any?
         private unowned let notificationCenter: NotificationCenter
         
-        internal init(_ token: Any, on notificationCenter: NotificationCenter) {
+        internal init(_ rawToken: Any, on notificationCenter: NotificationCenter) {
             
-            self.token = token
+            self.rawToken = rawToken
             self.notificationCenter = notificationCenter
         }
         
@@ -27,13 +27,14 @@ extension Notification {
         
         public func release() {
 
-            guard let t = token else {
+            guard let rawToken else {
                 
                 return
             }
             
-            notificationCenter.removeObserver(t)
-            token = nil
+            notificationCenter.removeObserver(rawToken)
+            
+            self.rawToken = nil
         }
         
         public static func == (lhs: Token, rhs: Token) -> Bool {

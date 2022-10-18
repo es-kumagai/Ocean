@@ -56,19 +56,24 @@ private func _observe<T: NotificationProtocol, Observer: NSObjectProtocol>(_ not
 
 extension NotificationObservable {
     
-    public func observe<T: NotificationProtocol, Observer: NSObjectProtocol>(_ notification: T.Type, observer: Observer, selector: Selector, object: Any? = nil) {
-        
-        notificationHandlers.observe(notification, on: notificationCenter, observer: observer, selector: selector, object: object)
+    public var notificationCenter: NotificationCenter {
+    
+        .default
     }
     
-    public func observe(notificationNamed name: Notification.Name, object: Any? = nil, queue: OperationQueue? = nil, using handler: @escaping (Notification) -> Void) {
+    public func observe<T: NotificationProtocol, Observer: NSObjectProtocol>(_ notification: T.Type, on notificationCenter: NotificationCenter? = nil, observer: Observer, selector: Selector, object: Any? = nil) {
         
-        notificationHandlers.observe(notificationNamed: name, on: notificationCenter, object: object, queue: queue, using: handler)
+        notificationHandlers.observe(notification, on: notificationCenter ?? self.notificationCenter, observer: observer, selector: selector, object: object)
     }
     
-    public func observe<T: NotificationProtocol>(_ notification: T.Type, object: Any? = nil, queue: OperationQueue? = nil, using handler: @escaping (T) -> Void) {
+    public func observe(notificationNamed name: Notification.Name, on notificationCenter: NotificationCenter? = nil, object: Any? = nil, queue: OperationQueue? = nil, using handler: @escaping (Notification) -> Void) {
         
-        notificationHandlers.observe(notification, on: notificationCenter, object: object, queue: queue, using: handler)
+        notificationHandlers.observe(notificationNamed: name, on: notificationCenter ?? self.notificationCenter, object: object, queue: queue, using: handler)
+    }
+    
+    public func observe<T: NotificationProtocol>(_ notification: T.Type, on notificationCenter: NotificationCenter? = nil, object: Any? = nil, queue: OperationQueue? = nil, using handler: @escaping (T) -> Void) {
+        
+        notificationHandlers.observe(notification, on: notificationCenter ?? self.notificationCenter, object: object, queue: queue, using: handler)
     }
     
     public func release(notification token: Notification.Token) {
