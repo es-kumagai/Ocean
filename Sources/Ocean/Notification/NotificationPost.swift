@@ -7,9 +7,27 @@
 
 import Foundation
 
+#if os(iOS)
 extension Notification {
     
     public func post() {
+        
+        post(to: NotificationCenter.default)
+    }
+}
+
+extension NotificationProtocol {
+    
+    public func post() {
+        
+        post(to: NotificationCenter.default)
+    }
+}
+#endif
+
+extension Notification {
+    
+    public func post(to notificationCenter: NotificationCenter) {
         
         notificationCenter.post(self)
     }
@@ -17,7 +35,7 @@ extension Notification {
 
 extension NotificationProtocol {
     
-    public func post() {
+    public func post(to notificationCenter: NotificationCenter) {
         
         notificationCenter.post(rawNotification)
     }

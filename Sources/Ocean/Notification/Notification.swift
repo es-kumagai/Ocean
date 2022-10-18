@@ -7,12 +7,11 @@
 
 import Foundation
 
-public internal(set) var notificationCenter = NotificationCenter.default
 private let notificationIdentifierPrefix = "jp.ez-net.notification."
 
 public protocol NotificationProtocol {
     
-    func post()
+    func post(to notificationCenter: NotificationCenter)
 }
 
 extension NotificationProtocol {

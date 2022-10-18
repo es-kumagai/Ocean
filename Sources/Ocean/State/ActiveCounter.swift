@@ -13,15 +13,19 @@ public final class ActiveCounter {
 
 	var _table =  WeakMultiSet<AnyObject>()
     var _tableManageThread = DispatchQueue(label: "jp.ez-style.thread.active-counter-management")
+    
+    var reporting: ReportingState
 
-    public init() {
+    public init(reporting: ReportingState) {
+        
+        self.reporting = reporting
     }
     
 	public var activeCount: Int {
 		
 		_invoke {
 
-			self._activeCount(withReport: false)
+            self._activeCount(withReport: .none)
 		}
 	}
 	
@@ -29,7 +33,7 @@ public final class ActiveCounter {
 	
 		_invoke {
 			
-			self._isActive(withReport: true)
+			self._isActive(withReport: reporting)
 		}
 	}
 	
@@ -39,7 +43,7 @@ public final class ActiveCounter {
 			
             self._incrementActiveCount(requestOwner: owner)
 			
-			return self._activeCount(withReport: false)
+            return self._activeCount(withReport: .none)
 		}
 	}
 	
@@ -49,7 +53,7 @@ public final class ActiveCounter {
 			
             self._decrementActiveCount(requestOwner: owner)
 
-			return self._activeCount(withReport: false)
+            return self._activeCount(withReport: .none)
 		}
 	}
 
@@ -95,35 +99,35 @@ extension ActiveCounter {
 		_table.removeAll()
 	}
 	
-	internal func _postActivityReport() {
+    internal func _postActivityReport(to notificationCenter: NotificationCenter) {
 		
 		let notification = ESActiveCounterReportNotification(sender: self)
 		
         DispatchQueue.main.async {
 
-			notification.post()
+			notification.post(to: notificationCenter)
 		}
 	}
 
-	internal func _activeCount(withReport postReport: Bool) -> Int {
+	internal func _activeCount(withReport postReport: ReportingState) -> Int {
 		
 		let count = _table.count
 		
-		if postReport {
+        if case .to(let notificationCenter) = postReport {
 			
-			_postActivityReport()
+			_postActivityReport(to: notificationCenter)
 		}
 		
 		return count
 	}
 	
-	internal func _isActive(withReport postReport: Bool) -> Bool {
+	internal func _isActive(withReport postReport: ReportingState) -> Bool {
 		
 		let isActive = _table.count > 0
 		
-		if postReport {
+        if case .to(let notificationCenter) = postReport {
 			
-			_postActivityReport()
+            _postActivityReport(to: notificationCenter)
 		}
 		
 		return isActive
@@ -133,9 +137,9 @@ extension ActiveCounter {
 		
 		_table.appendLast(requestOwner)
 			
-		if _table.count == 1 {
+        if _table.count == 1, case let .to(notificationCenter) = reporting {
 				
-			_postActivityReport()
+            _postActivityReport(to: notificationCenter)
 		}
 	}
 	
@@ -143,9 +147,9 @@ extension ActiveCounter {
 		
 		_table.removeOneFromFirst(requestOwner)
 		
-		if _table.count == 0 {
+        if _table.count == 0, case let .to(notificationCenter) = reporting {
 			
-			_postActivityReport()
+			_postActivityReport(to: notificationCenter)
 		}
 	}
 }

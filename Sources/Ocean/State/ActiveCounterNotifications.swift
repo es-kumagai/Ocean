@@ -19,8 +19,8 @@ public final class ESActiveCounterReportNotification : NotificationProtocol {
 		
 		self.source = sender
 		
-		isActive = sender._isActive(withReport: false)
-		activeCount = sender._activeCount(withReport: false)
+        isActive = sender._isActive(withReport: .none)
+        activeCount = sender._activeCount(withReport: .none)
 	}
 	
 	public func isSameSource(sender: ActiveCounter) -> Bool {

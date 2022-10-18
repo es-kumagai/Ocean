@@ -12,10 +12,12 @@ extension Notification {
     public final class Token : Equatable {
         
         private var token: Any?
+        private unowned let notificationCenter: NotificationCenter
         
-        internal init(_ token: Any) {
+        internal init(_ token: Any, on notificationCenter: NotificationCenter) {
             
             self.token = token
+            self.notificationCenter = notificationCenter
         }
         
         deinit {

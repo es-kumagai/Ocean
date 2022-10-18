@@ -91,7 +91,7 @@ public final class CSVInputStream<Target> where Target : CSVLineConvertible {
             return nil
         }
         
-        return CSV.split(CSV.removedTrailingNewline(of: line))
+        return CSV.split(CSV.removedTrailingNewline(of: line)).map { CSV.extracted($0) ?? $0 }
     }
 }
 

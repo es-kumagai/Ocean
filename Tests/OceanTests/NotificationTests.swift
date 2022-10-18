@@ -38,6 +38,8 @@ class OceanTests: XCTestCase {
     
     func testReceiveNotification() async {
 
+        let notificationCenter = NSWorkspace.shared.notificationCenter
+        
         let semaphoreA1 = DispatchSemaphore(value: 0)
         let semaphoreA2 = DispatchSemaphore(value: 0)
         let semaphoreB1 = DispatchSemaphore(value: 0)
@@ -49,10 +51,10 @@ class OceanTests: XCTestCase {
             return semaphore.wait(timeout: .now() + 0.1)
         }
         
-        Notification.A(value: "A1", semaphore: semaphoreA1).post()
+        Notification.A(value: "A1", semaphore: semaphoreA1).post(to: notificationCenter)
         XCTAssertEqual(wait(semaphoreA1), .timedOut)
 
-        let tokenA: Notification.Token = Ocean.observe(Notification.A.self) { notification in
+        let tokenA: Notification.Token = Ocean.observe(Notification.A.self, on: notificationCenter) { notification in
 
             XCTAssertEqual(notification.value, "A2")
             notification.semaphore.signal()
@@ -60,10 +62,10 @@ class OceanTests: XCTestCase {
         
         let _ = tokenA
         
-        Notification.A(value: "A2", semaphore: semaphoreA2).post()
+        Notification.A(value: "A2", semaphore: semaphoreA2).post(to: notificationCenter)
         XCTAssertEqual(wait(semaphoreA2), .success)
         
-        let tokenB: Notification.Token = Ocean.observe(Notification.B.self) { notification in
+        let tokenB: Notification.Token = Ocean.observe(Notification.B.self, on: notificationCenter) { notification in
             
             XCTAssertEqual(notification.value, "B2")
             notification.semaphore.signal()
@@ -71,12 +73,12 @@ class OceanTests: XCTestCase {
         
         XCTAssertEqual(wait(semaphoreB1), .timedOut)
         
-        Notification.B(value: "B2", semaphore: semaphoreB2).post()
+        Notification.B(value: "B2", semaphore: semaphoreB2).post(to: notificationCenter)
         XCTAssertEqual(wait(semaphoreB2), .success)
         
         tokenB.release()
         
-        Notification.B(value: "B3", semaphore: semaphoreB3).post()
+        Notification.B(value: "B3", semaphore: semaphoreB3).post(to: notificationCenter)
         XCTAssertEqual(wait(semaphoreB3), .timedOut, "Token B was already released.")
     }
 }
