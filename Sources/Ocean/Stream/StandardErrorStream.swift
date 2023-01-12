@@ -15,4 +15,10 @@ public final class StandardErrorStream : FileHandleOutputStream {
     }
 }
 
-public let standardErrorStream = StandardErrorStream()
+var standardErrorStream = StandardErrorStream()
+
+public func error(_ items: Any..., separator: String = " ", terminator: String = "\n") {
+    
+    let text = items.map(String.init(describing:)).joined(separator: separator)
+    print(text, terminator: terminator, to: &standardErrorStream)
+}
