@@ -14,3 +14,5 @@ public final class StandardErrorStream : FileHandleOutputStream {
         super.init(handle: FileHandle.standardError, encoding: .utf8)
     }
 }
+
+public let standardErrorStream = StandardErrorStream()

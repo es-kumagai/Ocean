@@ -14,3 +14,5 @@ public final class StandardOutputStream : FileHandleOutputStream {
         super.init(handle: FileHandle.standardOutput, encoding: .utf8)
     }
 }
+
+public let standardOutputStream = StandardOutputStream()
