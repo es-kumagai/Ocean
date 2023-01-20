@@ -16,3 +16,9 @@ public final class StandardOutputStream : FileHandleOutputStream {
 }
 
 var standardOutputStream = StandardOutputStream()
+
+public func output(_ items: Any..., separator: String = " ", terminator: String = "\n") {
+    
+    let text = items.map(String.init(describing:)).joined(separator: separator)
+    print(text, terminator: terminator, to: &standardErrorStream)
+}
