@@ -113,17 +113,7 @@ private extension LogFormatted {
         return pipe
     }
     
-    static let outputDateFormatter: DateFormatter = {
-    
-        let formatter = DateFormatter()
-        
-        formatter.calendar = Calendar(identifier: .gregorian)
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.timeZone = TimeZone.current
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSSSSSZ"
-        
-        return formatter
-    }()
+    static let outputDateFormatter = LogDateFormatter()
 
     func output(_ message: String, to outputHandle: FileHandle) {
         
@@ -132,16 +122,10 @@ private extension LogFormatted {
         }
         
         var stream = FileHandleOutputStream(handle: outputHandle, encoding: .utf8)
+              
+        let prefix = Self.outputDateFormatter.logPrefix(with: .now)
         
-        let date = Self.outputDateFormatter.string(from: .now)
-        let processInfo = ProcessInfo.processInfo
-        let processName = processInfo.processName
-        let processID = processInfo.processIdentifier
-        
-        var threadID = 0 as UInt64
-        pthread_threadid_np(pthread_self(), &threadID)
-        
-        print(date, "\(processName)[\(processID):\(threadID)]", message, separator: " ", to: &stream)
+        print("\(prefix) \(message)", to: &stream)
     }
     
     @Sendable

@@ -15,10 +15,13 @@ public final class StandardOutputStream : FileHandleOutputStream {
     }
 }
 
-var standardOutputStream = StandardOutputStream()
+private let logDateFormatter = LogDateFormatter()
+private var standardOutputStream = StandardOutputStream()
 
-public func output(_ items: Any..., separator: String = " ", terminator: String = "\n") {
+public func output(_ items: Any..., separator: String = " ", terminator: String = "\n", logPrefix: Bool = false, logPrefixSeparator: String = " ") {
     
     let text = items.map(String.init(describing:)).joined(separator: separator)
-    print(text, terminator: terminator, to: &standardErrorStream)
+    let prefix = !text.isEmpty && logPrefix ? logDateFormatter.logPrefix() : ""
+    
+    print("\(prefix)\(text)", terminator: terminator, to: &standardOutputStream)
 }
