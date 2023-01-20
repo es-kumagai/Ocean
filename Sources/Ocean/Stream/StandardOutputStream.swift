@@ -15,4 +15,4 @@ public final class StandardOutputStream : FileHandleOutputStream {
     }
 }
 
-public let standardOutputStream = StandardOutputStream()
+var standardOutputStream = StandardOutputStream()
