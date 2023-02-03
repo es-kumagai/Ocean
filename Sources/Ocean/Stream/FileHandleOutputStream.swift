@@ -43,3 +43,18 @@ extension FileHandleOutputStream {
         }
     }
 }
+
+private let logDateFormatter = LogDateFormatter()
+
+public func output(_ items: Any..., to stream: inout some TextOutputStream, separator: String = " ", terminator: String = "\n", logPrefix: Bool = false, logPrefixSeparator: String = " ") {
+    
+    output(contentsOf: items, to: &stream)
+}
+
+public func output(contentsOf items: [Any], to stream: inout some TextOutputStream, separator: String = " ", terminator: String = "\n", logPrefix: Bool = false, logPrefixSeparator: String = " ") {
+    
+    let text = items.map(String.init(describing:)).joined(separator: separator)
+    let prefix = !text.isEmpty && logPrefix ? logDateFormatter.logPrefix() + logPrefixSeparator : ""
+    
+    print("\(prefix)\(text)", terminator: terminator, to: &stream)
+}

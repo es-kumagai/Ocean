@@ -20,8 +20,5 @@ private var standardErrorStream = StandardErrorStream()
 
 public func error(_ items: Any..., separator: String = " ", terminator: String = "\n", logPrefix: Bool = false, logPrefixSeparator: String = " ") {
     
-    let text = items.map(String.init(describing:)).joined(separator: separator)
-    let prefix = !text.isEmpty && logPrefix ? logDateFormatter.logPrefix() : ""
-    
-    print("\(prefix)\(text)", terminator: terminator, to: &standardErrorStream)
+    output(contentsOf: items, to: &standardErrorStream, separator: separator, terminator: terminator, logPrefix: logPrefix, logPrefixSeparator: logPrefixSeparator)
 }
