@@ -8,7 +8,9 @@
 
 import Foundation
 
-@available(macOS 12, iOS 15, tvOS 15, watchOS 8, *)
+#if os(macOS)
+
+@available(macOS 12, *)
 @propertyWrapper
 public final class LogFormatted {
 
@@ -164,3 +166,5 @@ private extension LogFormatted {
         output(buffer, to: outputHandle)
     }
 }
+
+#endif

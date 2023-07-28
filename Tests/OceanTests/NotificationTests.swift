@@ -38,7 +38,11 @@ class OceanTests: XCTestCase {
     
     func testReceiveNotification() async {
 
+        #if os(macOS)
         let notificationCenter = NSWorkspace.shared.notificationCenter
+        #else
+        let notificationCenter = NotificationCenter.default
+        #endif
         
         let semaphoreA1 = DispatchSemaphore(value: 0)
         let semaphoreA2 = DispatchSemaphore(value: 0)
