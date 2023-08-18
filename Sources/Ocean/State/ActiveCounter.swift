@@ -16,7 +16,7 @@ public final class ActiveCounter {
     
     var reporting: ReportingState
 
-    public init(reporting: ReportingState) {
+    public init(reporting: ReportingState = .none) {
         
         self.reporting = reporting
     }
