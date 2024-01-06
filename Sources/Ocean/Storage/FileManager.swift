@@ -10,6 +10,25 @@ import Foundation
 
 extension FileManager {
     
+    public func isDirectoryExists(at url: URL) -> Bool {
+        
+        var isDirectory: ObjCBool = false
+        
+        guard fileExists(atPath: url.path, isDirectory: &isDirectory) else {
+            return false
+        }
+        
+        return isDirectory.boolValue
+    }
+    
+    public func prepareDirectory(at url: URL) throws {
+        
+        if !isDirectoryExists(at: url) {
+            
+            try createDirectory(at: url, withIntermediateDirectories: true)
+        }
+    }
+    
     public func isSymbolicLink(atPath path: String) -> Bool {
         
         guard let attributes = try? attributesOfItem(atPath: path) else {
