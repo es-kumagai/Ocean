@@ -9,7 +9,8 @@ import Swim
 
 public final class CSVInputStream<Target> where Target : CSVLineConvertible {
     
-    private var stream: TextFileInputStream
+    private let csv: CSV
+    private let stream: TextFileInputStream
 
     public enum HandlingFirstLine {
     
@@ -18,9 +19,10 @@ public final class CSVInputStream<Target> where Target : CSVLineConvertible {
         case strictlyCheckAsHeader
     }
     
-    public init(path: String, handlingFirstLine: HandlingFirstLine = .includeInData) throws {
+    public init(path: String, handlingFirstLine: HandlingFirstLine = .includeInData, csv: CSV = .standard) throws {
         
-        stream = try TextFileInputStream(path: path)
+        self.csv = csv
+        self.stream = try TextFileInputStream(path: path)
         
         switch handlingFirstLine {
         
@@ -42,9 +44,9 @@ public final class CSVInputStream<Target> where Target : CSVLineConvertible {
         }
     }
     
-    public convenience init(path: String, target: Target.Type, handlingFirstLine: HandlingFirstLine = .includeInData) throws {
+    public convenience init(path: String, target: Target.Type, handlingFirstLine: HandlingFirstLine = .includeInData, csv: CSV = .standard) throws {
         
-        try self.init(path: path, handlingFirstLine: handlingFirstLine)
+        try self.init(path: path, handlingFirstLine: handlingFirstLine, csv: csv)
     }
     
     public static var header: [String] {
@@ -76,7 +78,7 @@ public final class CSVInputStream<Target> where Target : CSVLineConvertible {
         
         do {
         
-            return try Target.init(csvLine: line)
+            return try Target.init(csvLine: line, using: csv)
         }
         catch {
             
@@ -91,7 +93,7 @@ public final class CSVInputStream<Target> where Target : CSVLineConvertible {
             return nil
         }
         
-        return CSV.split(CSV.removedTrailingNewline(of: line)).map { CSV.extracted($0) ?? $0 }
+        return csv.split(csv.removedTrailingNewline(of: line)).map { csv.extracted($0) ?? $0 }
     }
 }
 
@@ -112,16 +114,18 @@ extension CSVInputStream : IteratorProtocol, Sequence {
 
 public final class CSVOutputStream<Target> where Target : CSVLineConvertible {
     
-    private var stream: TextFileOutputStream
+    private let csv: CSV
+    private let stream: TextFileOutputStream
     
-    public init(path: String, mode: TextFileOutputStream.Mode = .overwrite) throws {
+    public init(path: String, mode: TextFileOutputStream.Mode = .overwrite, csv: CSV = .standard) throws {
 
-        stream = try TextFileOutputStream(path: path, mode: mode)
+        self.csv = csv
+        self.stream = try TextFileOutputStream(path: path, mode: mode)
     }
     
-    public convenience init(path: String, target: Target.Type, mode: TextFileOutputStream.Mode = .overwrite) throws {
+    public convenience init(path: String, target: Target.Type, mode: TextFileOutputStream.Mode = .overwrite, csv: CSV = .standard) throws {
         
-        try self.init(path: path, mode: mode)
+        try self.init(path: path, mode: mode, csv: csv)
     }
     
     public var mode: TextFileOutputStream.Mode {
@@ -136,21 +140,21 @@ public final class CSVOutputStream<Target> where Target : CSVLineConvertible {
     
     public func write(_ value: Target) {
         
-        stream.write(value.toCSVLine())
+        stream.write(value.toCSVLine(using: csv))
     }
     
     public func errorDetectableWrite(_ value: Target) throws {
         
-        try stream.errorDetectableWrite(value.toCSVLine())
+        try stream.errorDetectableWrite(value.toCSVLine(using: csv))
     }
     
     public func writeHeader() {
         
-        stream.write(Target.csvHeaderLine)
+        stream.write(Target.csvHeaderLine(with: csv))
     }
     
     public func errorDetectableWriteHeader() throws {
         
-        try stream.errorDetectableWrite(Target.csvHeaderLine)
+        try stream.errorDetectableWrite(Target.csvHeaderLine(with: csv))
     }
 }
