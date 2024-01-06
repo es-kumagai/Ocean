@@ -8,9 +8,9 @@
 
 import Foundation
 
-extension FileManager {
+public extension FileManager {
     
-    public func isDirectoryExists(at url: URL) -> Bool {
+    func isDirectoryExists(at url: URL) -> Bool {
         
         var isDirectory: ObjCBool = false
         
@@ -21,7 +21,7 @@ extension FileManager {
         return isDirectory.boolValue
     }
     
-    public func prepareDirectory(at url: URL) throws {
+    func prepareDirectory(at url: URL) throws {
         
         if !isDirectoryExists(at: url) {
             
@@ -29,7 +29,7 @@ extension FileManager {
         }
     }
     
-    public func isSymbolicLink(atPath path: String) -> Bool {
+    func isSymbolicLink(atPath path: String) -> Bool {
         
         guard let attributes = try? attributesOfItem(atPath: path) else {
             return false
@@ -42,7 +42,7 @@ extension FileManager {
         return type == .typeSymbolicLink
     }
     
-    public func createSymbolicLink(at url: URL, withDestinationURL destURL: URL, overwrite: Bool) throws {
+    func createSymbolicLink(at url: URL, withDestinationURL destURL: URL, overwrite: Bool) throws {
         
         if overwrite, isSymbolicLink(atPath: url.path) {
             try removeItem(at: url)
