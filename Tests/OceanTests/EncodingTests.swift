@@ -10,7 +10,7 @@ import XCTest
 @testable import Ocean
 import Swim
 
-final class Encoding: XCTestCase {
+final class EncodingTests: XCTestCase {
 
     override func setUpWithError() throws {
     }
@@ -19,7 +19,7 @@ final class Encoding: XCTestCase {
     }
 
     func testBase32Encoding() throws {
-        
+                
         let text1 = "Hello!"
         let text2 = "EZ-NET"
         let text3 = "API Design Guidelines"
@@ -63,5 +63,22 @@ final class Encoding: XCTestCase {
         XCTAssertEqual(decodedText1, text1)
         XCTAssertEqual(decodedText2, text2)
         XCTAssertEqual(decodedText3, text3)
+    }
+    
+    func testBase32Coding() throws {
+        
+        let encodedString1 = "2A6H5LW5GZ5TKO64UKGPT5QTPQNECHBV"
+        let encodedString2 = "2A6H5LW5GZ5TKO64UKGPT5QTPQNECHBVOLA4M"
+
+        let decodedData1 = Data(base32Encoded: encodedString1.data(using: .ascii)!)!
+        let reEncodedData1 = Base32.encoding(decodedData1)
+        let reEncodedString1 = String(data: reEncodedData1, encoding: .ascii)!
+
+        let decodedData2 = Data(base32Encoded: encodedString2.data(using: .ascii)!)!
+        let reEncodedData2 = Base32.encoding(decodedData2)
+        let reEncodedString2 = String(data: reEncodedData2, encoding: .ascii)!
+
+        XCTAssertEqual("\(encodedString1)", reEncodedString1)
+        XCTAssertEqual("\(encodedString2)===", reEncodedString2)
     }
 }
