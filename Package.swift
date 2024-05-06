@@ -17,7 +17,7 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(url: "https://github.com/es-kumagai/Swim", branch: "main"),
+        .package(url: "https://github.com/es-kumagai/Swim", "0.2.0" ..< "0.3.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -26,9 +26,6 @@ let package = Package(
             name: "Ocean",
             dependencies: ["Swim"],
             swiftSettings: [
-                .unsafeFlags([
-                    "-enable-library-evolution",
-                ])
             ]
         ),
         .testTarget(
