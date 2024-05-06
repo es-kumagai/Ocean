@@ -19,6 +19,7 @@ final class URLTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
+    @available(iOS 16.0, *)
     func testExpandEnvironmentVariables() throws {
 
         let environment = ProcessInfo.processInfo.environment

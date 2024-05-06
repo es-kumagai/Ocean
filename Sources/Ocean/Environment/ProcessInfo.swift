@@ -9,12 +9,13 @@
 import Foundation
 import RegexBuilder
 
+@available(iOS 16.0, *)
 public extension ProcessInfo {
     
-    /// Resolving environment variables in `string`.
+    /// [Ocean] Resolving environment variables in `string`.
     /// - Parameter string: A string to resolve environment variables.
     /// - Parameter replacingStringIfNotExistsInEnvironment: A string to replace if the environment variable does not exist.
-    func resolveEnvironmentVariables<SomeString>(in string: inout SomeString, replacingStringIfNotExistsInEnvironment alternativeText: String? = nil) where SomeString : StringProtocol {
+    func resolveEnvironmentVariables<SomeString>(in string: inout SomeString, replacingStringIfNotExistsInEnvironment alternativeText: borrowing String? = nil) where SomeString : StringProtocol {
 
         var continueResolving: Bool
         var resolvingString = String(string)
@@ -44,11 +45,11 @@ public extension ProcessInfo {
         string = SomeString(resolvingString)!
     }
     
-    /// Resolving environment variables in `string`.
+    /// [Ocean] Resolving environment variables in `string`.
     /// - Parameter string: A string to resolve environment variables.
     /// - Parameter replacingStringIfNotExistsInEnvironment: A string to replace if the environment variable does not exist.
     /// - Returns: A string that resolved environment variables.
-    func resolvingEnvironmentVariables(in string: some StringProtocol, replacingStringIfNotExistsInEnvironment alternativeText: String? = nil) -> String {
+    func resolvingEnvironmentVariables(in string: some StringProtocol, replacingStringIfNotExistsInEnvironment alternativeText: borrowing String? = nil) -> String {
         
         var string = String(string)
         resolveEnvironmentVariables(in: &string, replacingStringIfNotExistsInEnvironment: alternativeText)
@@ -57,140 +58,153 @@ public extension ProcessInfo {
     }
 }
 
+@available(iOS 16.0, *)
 public extension StringProtocol {
     
-    /// Expand environment variables in this string.
+    /// [Ocean] Expand environment variables in this string.
     /// - Parameter replacingStringIfNotExistsInEnvironment: A string to replace if the environment variable does not exist.
-    mutating func expandEnvironmentVariables(replacingStringIfNotExistsInEnvironment alternativeText: String? = nil) {
+    mutating func expandEnvironmentVariables(replacingStringIfNotExistsInEnvironment alternativeText: borrowing String? = nil) {
         ProcessInfo.processInfo.resolveEnvironmentVariables(in: &self, replacingStringIfNotExistsInEnvironment: alternativeText)
     }
     
-    /// Returns a string expanded environment variables in.
+    /// [Ocean] Returns a string expanded environment variables in.
     var expandedEnvironmentVariables: String {
-        expandedEnvironmentVariables()
+        
+        borrowing get {
+            expandedEnvironmentVariables()
+        }
     }
     
-    /// Returns a string expanded environment variables in.
+    /// [Ocean] Returns a string expanded environment variables in.
     /// - Parameter replacingStringIfNotExistsInEnvironment: A string to replace if the environment variable does not exist.
-    func expandedEnvironmentVariables(replacingStringIfNotExistsInEnvironment alternativeText: String? = nil) -> String {
+    borrowing func expandedEnvironmentVariables(replacingStringIfNotExistsInEnvironment alternativeText: borrowing String? = nil) -> String {
         ProcessInfo.processInfo.resolvingEnvironmentVariables(in: self, replacingStringIfNotExistsInEnvironment: alternativeText)
     }
 }
 
+@available(iOS 16.0, *)
 public extension BinaryInteger {
     
-    /// Expand environment variables in this value.
+    /// [Ocean] Expand environment variables in this value.
     /// - Parameter replacingStringIfNotExistsInEnvironment: A string to replace if the environment variable does not exist.
-    mutating func expandEnvironmentVariables(replacingStringIfNotExistsInEnvironment alternativeText: String? = nil) throws {
+    mutating func expandEnvironmentVariables(replacingStringIfNotExistsInEnvironment alternativeText: borrowing String? = nil) throws {
         self = try expandedEnvironmentVariables(replacingStringIfNotExistsInEnvironment: alternativeText)
     }
     
-    /// Returns a value expanded environment variables in this value.
+    /// [Ocean] Returns a value expanded environment variables in this value.
     var expandedEnvironmentVariables: Self {
-        get throws {
+        borrowing get throws {
             try expandedEnvironmentVariables()
         }
     }
     
-    /// Returns a value expanded environment variables in this value.
+    /// [Ocean] Returns a value expanded environment variables in this value.
     /// - Parameter replacingStringIfNotExistsInEnvironment: A string to replace if the environment variable does not exist.
     /// - Returns: A value expanded environment variables in this value.
-    func expandedEnvironmentVariables(replacingStringIfNotExistsInEnvironment alternativeText: String? = nil) throws -> Self {
+    borrowing func expandedEnvironmentVariables(replacingStringIfNotExistsInEnvironment alternativeText: borrowing String? = nil) throws -> Self {
         
-        let stringValue = String(describing: self).expandedEnvironmentVariables(replacingStringIfNotExistsInEnvironment: alternativeText)
+        let stringValue = String(copy self).expandedEnvironmentVariables(replacingStringIfNotExistsInEnvironment: alternativeText)
         let numericValue = try Self(stringValue, format: IntegerFormatStyle<Self>())
         
         return numericValue
     }
 }
 
+@available(iOS 16.0, *)
 public extension BinaryFloatingPoint {
     
-    /// Expand environment variables in this value.
+    /// [Ocean] Expand environment variables in this value.
     /// - Parameter replacingStringIfNotExistsInEnvironment: A string to replace if the environment variable does not exist.
-    mutating func expandEnvironmentVariables(replacingStringIfNotExistsInEnvironment alternativeText: String? = nil) throws {
+    mutating func expandEnvironmentVariables(replacingStringIfNotExistsInEnvironment alternativeText: borrowing String? = nil) throws {
         self = try expandedEnvironmentVariables(replacingStringIfNotExistsInEnvironment: alternativeText)
     }
     
-    /// Returns a value expanded environment variables in this value.
+    /// [Ocean] Returns a value expanded environment variables in this value.
     var expandedEnvironmentVariables: Self {
-        get throws {
+        borrowing get throws {
             try expandedEnvironmentVariables()
         }
     }
     
-    /// Returns a value expanded environment variables in this value.
+    /// [Ocean] Returns a value expanded environment variables in this value.
     /// - Parameter replacingStringIfNotExistsInEnvironment: A string to replace if the environment variable does not exist.
     /// - Returns: A value expanded environment variables in this value.
-    func expandedEnvironmentVariables(replacingStringIfNotExistsInEnvironment alternativeText: String? = nil) throws -> Self {
+    borrowing func expandedEnvironmentVariables(replacingStringIfNotExistsInEnvironment alternativeText: borrowing String? = nil) throws -> Self {
         
-        let stringValue = String(describing: self).expandedEnvironmentVariables(replacingStringIfNotExistsInEnvironment: alternativeText)
+        let stringValue = String(describing: copy self).expandedEnvironmentVariables(replacingStringIfNotExistsInEnvironment: alternativeText)
         let numericValue = try Self(stringValue, format: FloatingPointFormatStyle<Self>())
 
         return numericValue
     }
 }
 
+@available(iOS 16.0, *)
 public extension URLQueryItem {
     
-    /// Expand environment variables in the name.
+    /// [Ocean] Expand environment variables in the name.
     /// - Parameter replacingStringIfNotExistsInEnvironment: A string to replace if the environment variable does not exist.
-    mutating func expandEnvironmentVariablesInName(replacingStringIfNotExistsInEnvironment alternativeText: String? = nil) {
+    mutating func expandEnvironmentVariablesInName(replacingStringIfNotExistsInEnvironment alternativeText: borrowing String? = nil) {
         name.expandEnvironmentVariables(replacingStringIfNotExistsInEnvironment: alternativeText)
     }
     
-    /// Expand environment variables in the value.
+    /// [Ocean] Expand environment variables in the value.
     /// - Parameter replacingStringIfNotExistsInEnvironment: A string to replace if the environment variable does not exist.
-    mutating func expandEnvironmentVariablesInValue(replacingStringIfNotExistsInEnvironment alternativeText: String? = nil) {
+    mutating func expandEnvironmentVariablesInValue(replacingStringIfNotExistsInEnvironment alternativeText: borrowing String? = nil) {
         value?.expandEnvironmentVariables(replacingStringIfNotExistsInEnvironment: alternativeText)
     }
     
-    /// Expand environment variables in both the name and the value.
+    /// [Ocean] Expand environment variables in both the name and the value.
     /// - Parameter replacingStringIfNotExistsInEnvironment: A string to replace if the environment variable does not exist.
-    mutating func expandEnvironmentVariables(replacingStringIfNotExistsInEnvironment alternativeText: String? = nil) {
+    mutating func expandEnvironmentVariables(replacingStringIfNotExistsInEnvironment alternativeText: borrowing String? = nil) {
         expandEnvironmentVariablesInName(replacingStringIfNotExistsInEnvironment: alternativeText)
         expandEnvironmentVariablesInValue(replacingStringIfNotExistsInEnvironment: alternativeText)
     }
     
-    /// Returns a query item expanded environment variables in the name.
+    /// [Ocean] Returns a query item expanded environment variables in the name.
     var expandedEnvironmentVariablesInName: URLQueryItem {
-        expandedEnvironmentVariablesInName()
+        borrowing get {
+            expandedEnvironmentVariablesInName()
+        }
     }
     
-    /// Returns a query item expanded environment variables in the name.
+    /// [Ocean] Returns a query item expanded environment variables in the name.
     /// - Parameter replacingStringIfNotExistsInEnvironment: A string to replace if the environment variable does not exist.
     /// - Returns: A query item expanded environment variables in the name.
-    func expandedEnvironmentVariablesInName(replacingStringIfNotExistsInEnvironment alternativeText: String? = nil) -> URLQueryItem {
+    func expandedEnvironmentVariablesInName(replacingStringIfNotExistsInEnvironment alternativeText: borrowing String? = nil) -> URLQueryItem {
         URLQueryItem(
             name: name.expandedEnvironmentVariables(replacingStringIfNotExistsInEnvironment: alternativeText),
             value: value
         )
     }
     
-    /// Returns a query item expanded environment variables in the value.
+    /// [Ocean] Returns a query item expanded environment variables in the value.
     var expandedEnvironmentVariablesInValue: URLQueryItem {
-        expandedEnvironmentVariablesInValue()
+        borrowing get {
+            expandedEnvironmentVariablesInValue()
+        }
     }
     
-    /// Returns a query item expanded environment variables in the value.
+    /// [Ocean] Returns a query item expanded environment variables in the value.
     /// - Parameter replacingStringIfNotExistsInEnvironment: A string to replace if the environment variable does not exist.
     /// - Returns: A query item expanded environment variables in the value.
-    func expandedEnvironmentVariablesInValue(replacingStringIfNotExistsInEnvironment alternativeText: String? = nil) -> URLQueryItem {
+    func expandedEnvironmentVariablesInValue(replacingStringIfNotExistsInEnvironment alternativeText: borrowing String? = nil) -> URLQueryItem {
         URLQueryItem(
             name: name,
             value: value?.expandedEnvironmentVariables(replacingStringIfNotExistsInEnvironment: alternativeText)
         )
     }
     
-    /// Returns a query item expanded environment variables in both the name and the value.
+    /// [Ocean] Returns a query item expanded environment variables in both the name and the value.
     var expandedEnvironmentVariables: URLQueryItem {
-        expandedEnvironmentVariables()
+        borrowing get {
+            expandedEnvironmentVariables()
+        }
     }
     
-    /// Returns a query item expanded environment variables in both the name and the value.
+    /// [Ocean] Returns a query item expanded environment variables in both the name and the value.
     /// - Parameter replacingStringIfNotExistsInEnvironment: A string to replace if the environment variable does not exist.
     /// - Returns: A query item expanded environment variables in both the name and the value.
-    func expandedEnvironmentVariables(replacingStringIfNotExistsInEnvironment alternativeText: String? = nil) -> URLQueryItem {
+    func expandedEnvironmentVariables(replacingStringIfNotExistsInEnvironment alternativeText: borrowing String? = nil) -> URLQueryItem {
         URLQueryItem(
             name: name.expandedEnvironmentVariables(replacingStringIfNotExistsInEnvironment: alternativeText),
             value: value?.expandedEnvironmentVariables(replacingStringIfNotExistsInEnvironment: alternativeText)
@@ -198,11 +212,12 @@ public extension URLQueryItem {
     }
 }
 
+@available(iOS 16.0, *)
 public extension MutableCollection<StringProtocol> {
     
-    /// Expand environment variables in each element.
+    /// [Ocean] Expand environment variables in each element.
     /// - Parameter replacingStringIfNotExistsInEnvironment: A string to replace if the environment variable does not exist.
-    mutating func expandEnvironmentVariables(replacingStringIfNotExistsInEnvironment alternativeText: String? = nil) {
+    mutating func expandEnvironmentVariables(replacingStringIfNotExistsInEnvironment alternativeText: borrowing String? = nil) {
 
         for index in indices {
             self[index].expandEnvironmentVariables(replacingStringIfNotExistsInEnvironment: alternativeText)
@@ -210,29 +225,30 @@ public extension MutableCollection<StringProtocol> {
     }
 }
 
+@available(iOS 16.0, *)
 public extension MutableCollection<URLQueryItem> {
     
-    /// Expand environment variables in the name.
+    /// [Ocean] Expand environment variables in the name.
     /// - Parameter replacingStringIfNotExistsInEnvironment: A string to replace if the environment variable does not exist.
-    mutating func expandEnvironmentVariablesInName(replacingStringIfNotExistsInEnvironment alternativeText: String? = nil) {
+    mutating func expandEnvironmentVariablesInName(replacingStringIfNotExistsInEnvironment alternativeText: borrowing String? = nil) {
         
         for index in indices {
             self[index].name.expandEnvironmentVariables(replacingStringIfNotExistsInEnvironment: alternativeText)
         }
     }
     
-    /// Expand environment variables in the value.
+    /// [Ocean] Expand environment variables in the value.
     /// - Parameter replacingStringIfNotExistsInEnvironment: A string to replace if the environment variable does not exist.
-    mutating func expandEnvironmentVariablesInValue(replacingStringIfNotExistsInEnvironment alternativeText: String? = nil) {
+    mutating func expandEnvironmentVariablesInValue(replacingStringIfNotExistsInEnvironment alternativeText: borrowing String? = nil) {
         
         for index in indices {
             self[index].value?.expandEnvironmentVariables(replacingStringIfNotExistsInEnvironment: alternativeText)
         }
     }
     
-    /// Expand environment variables in both the name and the value.
+    /// [Ocean] Expand environment variables in both the name and the value.
     /// - Parameter replacingStringIfNotExistsInEnvironment: A string to replace if the environment variable does not exist.
-    mutating func expandEnvironmentVariables(replacingStringIfNotExistsInEnvironment alternativeText: String? = nil) {
+    mutating func expandEnvironmentVariables(replacingStringIfNotExistsInEnvironment alternativeText: borrowing String? = nil) {
         
         for index in indices {
             self[index].name.expandEnvironmentVariables(replacingStringIfNotExistsInEnvironment: alternativeText)
@@ -241,47 +257,54 @@ public extension MutableCollection<URLQueryItem> {
     }
 }
  
+@available(iOS 16.0, *)
 extension Sequence<URLQueryItem> {
 
-    /// Returns a query item expanded environment variables in the name.
+    /// [Ocean] Returns a query item expanded environment variables in the name.
     var expandedEnvironmentVariablesInName: [URLQueryItem] {
-        expandedEnvironmentVariablesInName()
+        borrowing get {
+            expandedEnvironmentVariablesInName()
+        }
     }
     
-    /// Returns a query item expanded environment variables in the name.
+    /// [Ocean] Returns a query item expanded environment variables in the name.
     /// - Parameter replacingStringIfNotExistsInEnvironment: A string to replace if the environment variable does not exist.
     /// - Returns: A query item expanded environment variables in the name.
-    func expandedEnvironmentVariablesInName(replacingStringIfNotExistsInEnvironment alternativeText: String? = nil) -> [URLQueryItem] {
+    borrowing func expandedEnvironmentVariablesInName(replacingStringIfNotExistsInEnvironment alternativeText: borrowing String? = nil) -> [URLQueryItem] {
         
         map { item in
             item.expandedEnvironmentVariablesInName(replacingStringIfNotExistsInEnvironment: alternativeText)
         }
     }
     
-    /// Returns a query item expanded environment variables in the value.
+    /// [Ocean] Returns a query item expanded environment variables in the value.
     var expandedEnvironmentVariablesInValue: [URLQueryItem] {
-        expandedEnvironmentVariablesInValue()
+        borrowing get {
+            expandedEnvironmentVariablesInValue()
+        }
     }
     
-    /// Returns a query item expanded environment variables in the value.
+    /// [Ocean] Returns a query item expanded environment variables in the value.
     /// - Parameter replacingStringIfNotExistsInEnvironment: A string to replace if the environment variable does not exist.
     /// - Returns: A query item expanded environment variables in the value.
-    func expandedEnvironmentVariablesInValue(replacingStringIfNotExistsInEnvironment alternativeText: String? = nil) -> [URLQueryItem] {
+    borrowing func expandedEnvironmentVariablesInValue(replacingStringIfNotExistsInEnvironment alternativeText: borrowing String? = nil) -> [URLQueryItem] {
         
         map { item in
             item.expandedEnvironmentVariablesInValue(replacingStringIfNotExistsInEnvironment: alternativeText)
         }
     }
     
-    /// Returns a query item expanded environment variables in both the name and the value.
+    /// [Ocean] Returns a query item expanded environment variables in both the name and the value.
     var expandedEnvironmentVariables: [URLQueryItem] {
-        expandedEnvironmentVariables()
+        borrowing get {
+            expandedEnvironmentVariables()
+        }
     }
     
-    /// Returns a query item expanded environment variables in both the name and the value.
+    /// [Ocean] Returns a query item expanded environment variables in both the name and the value.
     /// - Parameter replacingStringIfNotExistsInEnvironment: A string to replace if the environment variable does not exist.
     /// - Returns: A query item expanded environment variables in both the name and the value.
-    func expandedEnvironmentVariables(replacingStringIfNotExistsInEnvironment alternativeText: String? = nil) -> [URLQueryItem] {
+    borrowing func expandedEnvironmentVariables(replacingStringIfNotExistsInEnvironment alternativeText: borrowing String? = nil) -> [URLQueryItem] {
         
         map { item in
             item.expandedEnvironmentVariables(replacingStringIfNotExistsInEnvironment: alternativeText)
@@ -289,18 +312,20 @@ extension Sequence<URLQueryItem> {
     }
 }
 
+@available(iOS 16.0, *)
 public extension URL {
 
-    /// The URL that expanded environment variables in the path.
+    /// [Ocean] The URL that expanded environment variables in the path.
     var expandedEnvironmentVariables: URL? {
-
-        expandedEnvironmentVariables()
+        borrowing get {
+            expandedEnvironmentVariables()
+        }
     }
     
-    /// The URL that expanded environment variables in the url.
+    /// [Ocean] The URL that expanded environment variables in the url.
     /// - Parameter replacingStringIfNotExistsInEnvironment: A string to replace if the environment variable does not exist.
     /// - Returns: The URL that expanded environment variables in the url.
-    func expandedEnvironmentVariables(replacingStringIfNotExistsInEnvironment alternativeText: String? = nil) -> URL? {
+    borrowing func expandedEnvironmentVariables(replacingStringIfNotExistsInEnvironment alternativeText: borrowing String? = nil) -> URL? {
         
         guard var components = URLComponents(url: self, resolvingAgainstBaseURL: false) else {
             
@@ -321,7 +346,8 @@ public extension URL {
 
 private extension ProcessInfo {
     
-    /// Regex pattern for environment variable name.
+    /// [Ocean] Regex pattern for environment variable name.
+    @available(iOS 16.0, *)
     static let environmentNamePattern = Regex {
         One(.word)
         ZeroOrMore {
@@ -332,7 +358,8 @@ private extension ProcessInfo {
         }
     }
     
-    /// Regex pattern for environment variable.
+    /// [Ocean] Regex pattern for environment variable.
+    @available(iOS 16.0, *)
     static let environmentPattern = Regex {
         "$"
         ChoiceOf {
