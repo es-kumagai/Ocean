@@ -28,7 +28,9 @@ public final class LogFormatted {
     
     public init(_ target: Target? = .both) {
         
-        terminationTask = Task(operation: terminationOperation)
+        terminationTask = Task {
+            await terminationOperation()
+        }
 
         switch target {
             
@@ -130,7 +132,6 @@ private extension LogFormatted {
         print("\(prefix) \(message)", to: &stream)
     }
     
-    @Sendable
     func terminationOperation() async {
 
         for await _ in Self.notificationCenter.notifications(named: Process.didTerminateNotification, object: process) {
