@@ -8,6 +8,7 @@
 
 import Foundation
 import CommonCrypto
+import Swim
 
 extension Cryption {
     
@@ -16,7 +17,7 @@ extension Cryption {
         public static let initialVectorSize = BlockSize.aes128.rawValue
         public static let sharedKeySize = KeySize.aes128.rawValue
         
-        private var sharedKey: UnsafeMutableBufferPointer<UInt8>
+        private var sharedKey: UnsafeMutableBufferPointer<Byte>
 		private var defaultInitialVectorData: Data?
         
 		public convenience init?(sharedKey keyString: String, initialVector ivData: Data? = nil) {
@@ -31,7 +32,7 @@ extension Cryption {
         
         public init?(sharedKey keyData: Data, initialVector ivData: Data? = nil) {
             
-            guard let keyBuffer = keyData.copyBytes() else {
+            guard let keyBuffer = keyData.copiedBytes() else {
                 
                 return nil
             }
@@ -58,7 +59,7 @@ extension Cryption {
                 throw Cryption.CryptionError.invalidArgument(message: "Invalid initial vector size passed as an argument.")
             }
             
-            guard let textData = text.data(using: .utf8), let textBuffer = textData.copyBytes() else {
+            guard let textData = text.data(using: .utf8), let textBuffer = textData.copiedBytes() else {
                 
                 throw Cryption.CryptionError.invalidArgument(message: "Invalid text passed as an argument.")
             }
@@ -68,7 +69,7 @@ extension Cryption {
                 textBuffer.deallocate()
             }
             
-            guard let ivBuffer = ivData.copyBytes() else {
+            guard let ivBuffer = ivData.copiedBytes() else {
                 
                 throw CryptionError.invalidArgument(message: "Invalid initial vector passed as an argument.")
             }
@@ -121,7 +122,7 @@ extension Cryption {
                 throw CryptionError.invalidArgument(message: "Invalid initial vector size passed as an argument.")
             }
             
-            guard let cryptedTextBuffer = cryptedTextData.copyBytes() else {
+            guard let cryptedTextBuffer = cryptedTextData.copiedBytes() else {
                 
                 throw CryptionError.invalidArgument(message: "Invalid crypted text passed as an argument.")
             }
@@ -131,7 +132,7 @@ extension Cryption {
                 cryptedTextBuffer.deallocate()
             }
             
-            guard let ivBuffer = ivData.copyBytes() else {
+            guard let ivBuffer = ivData.copiedBytes() else {
                 
                 throw CryptionError.invalidArgument(message: "Invalid initial vector passed as an argument.")
             }
