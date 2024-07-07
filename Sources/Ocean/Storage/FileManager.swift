@@ -10,44 +10,74 @@ import Foundation
 
 public extension FileManager {
     
-    func isDirectoryExists(at url: URL) -> Bool {
+    /// [Ocean] Determines whether the `url` is a file.
+    /// - Parameter url: The URL to be checked.
+    /// - Returns: `true` if the item at the URL is a file, otherwise `false`.
+    func isFile(at filePath: some FilePathConvertible) -> Bool {
         
         var isDirectory: ObjCBool = false
         
-        guard fileExists(atPath: url.path, isDirectory: &isDirectory) else {
+        guard fileExists(atPath: filePath.filePathDescription, isDirectory: &isDirectory) else {
+            return false
+        }
+        
+        return !isDirectory.boolValue
+    }
+    
+    /// [Ocean] Determines whether the `url` is a directory.
+    /// - Parameter url: The URL to be checked.
+    /// - Returns: `true` if the item at the URL is a directory, otherwise `false`.
+    @available(*, unavailable, renamed: "isDirectory(at:)", message: "This method was renamed.")
+    func isDirectoryExists(at url: URL) -> Bool {
+        fatalError()
+    }
+
+    /// [Ocean] Determines whether the `filePath` is a directory.
+    /// - Parameter path: The URL to be checked.
+    /// - Returns: `true` if the item at the URL is a directory, otherwise `false`.
+    func isDirectory(at filePath: some FilePathConvertible) -> Bool {
+        
+        var isDirectory: ObjCBool = false
+        
+        guard fileExists(atPath: filePath.filePathDescription, isDirectory: &isDirectory) else {
             return false
         }
         
         return isDirectory.boolValue
     }
     
-    func prepareDirectory(at url: URL) throws {
+    func prepareDirectory(at filePath: some FilePathConvertible) throws {
         
-        if !isDirectoryExists(at: url) {
+        if !isDirectory(at: filePath) {
             
-            try createDirectory(at: url, withIntermediateDirectories: true)
+            try createDirectory(at: filePath.fileURLDescription, withIntermediateDirectories: true)
         }
     }
-    
-    func isSymbolicLink(atPath path: String) -> Bool {
+
+    func type(of filePath: some FilePathConvertible) -> FileAttributeType? {
         
-        guard let attributes = try? attributesOfItem(atPath: path) else {
-            return false
+        guard let attributes = try? attributesOfItem(atPath: filePath.filePathDescription) else {
+            return nil
         }
         
         guard let `type` = attributes[.type] as? FileAttributeType else {
-            return false
+            return nil
         }
         
-        return type == .typeSymbolicLink
+        return type
     }
     
-    func createSymbolicLink(at url: URL, withDestinationURL destURL: URL, overwrite: Bool) throws {
+    func isSymbolicLink(at filePath: some FilePathConvertible) -> Bool {
         
-        if overwrite, isSymbolicLink(atPath: url.path) {
-            try removeItem(at: url)
+        type(of: filePath) == .typeSymbolicLink
+    }
+    
+    func createSymbolicLink(at filePath: some FilePathConvertible, withDestinationURL destURL: URL, overwrite: Bool) throws {
+        
+        if overwrite, isSymbolicLink(at: filePath) {
+            try removeItem(at: filePath.fileURLDescription)
         }
 
-        try createSymbolicLink(at: url, withDestinationURL: destURL)
+        try createSymbolicLink(at: filePath.fileURLDescription, withDestinationURL: destURL)
     }
 }
