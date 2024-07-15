@@ -61,6 +61,10 @@ extension Substring : FilePathConvertible {
 
 extension URL : FilePathConvertible {
     
+    public init(filePath: some FilePathConvertible) {
+        self = filePath.fileURLDescription
+    }
+
     /// [Ocean] A textual path representation of this instance.
     public var filePathDescription: String {
         path(percentEncoded: false)
