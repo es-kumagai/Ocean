@@ -25,6 +25,19 @@ public extension Data {
         
         return result
     }
+    
+    mutating func extractFirst(_ count: Int) -> Data {
+        
+        defer {
+            removeFirst(count)
+        }
+        
+        return dropFirst(count)
+    }
+    
+    mutating func extractAll() -> Data {
+        extractFirst(count)
+    }
 }
 
 public extension Sequence<Data> {
