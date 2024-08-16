@@ -9,7 +9,6 @@
 import Foundation
 import UniformTypeIdentifiers
 import OceanMacro
-import AppKit
 
 @URLResourceFilter
 public extension [URL] {
