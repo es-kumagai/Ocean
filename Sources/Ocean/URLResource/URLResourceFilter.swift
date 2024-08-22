@@ -23,7 +23,9 @@ public extension [URL] {
         case isVolume(Bool)
         case isPackage(Bool)
         case isApplication(Bool)
+        #if os(macOS)
         case applicationIsScriptable(Bool)
+        #endif
         case isSystemImmutable(Bool)
         case isUserImmutable(Bool)
         case isHidden(Bool)
@@ -54,14 +56,18 @@ public extension [URL] {
         case isExecutable(Bool)
         case fileSecurity(NSFileSecurity)
         case isExcludedFromBackup(Bool)
+        #if os(macOS)
         case tagNames([String])
+        #endif
         case path(FilePathConvertible)
         case canonicalPath(FilePathConvertible)
         case isMountTrigger(Bool)
         case generationIdentifier(any NSCopying & NSSecureCoding & NSObjectProtocol)
         case documentIdentifier(Int)
         case addedToDirectoryDate(Date)
+        #if os(macOS)
         case quarantineProperties([String : Any])
+        #endif
         case fileResourceType(URLFileResourceType)
         
         case fileIdentifier(UInt64, available: String = "macOS 13.3, iOS 16.4, tvOS 16.4, watchOS 9.4, *")

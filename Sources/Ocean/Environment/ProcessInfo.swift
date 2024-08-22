@@ -15,7 +15,7 @@ public extension ProcessInfo {
     /// [Ocean] Resolving environment variables in `string`.
     /// - Parameter string: A string to resolve environment variables.
     /// - Parameter replacingStringIfNotExistsInEnvironment: A string to replace if the environment variable does not exist.
-    func resolveEnvironmentVariables<SomeString>(in string: inout SomeString, replacingStringIfNotExistsInEnvironment alternativeText: borrowing String? = nil) where SomeString : StringProtocol {
+    func resolveEnvironmentVariables<SomeString>(in string: inout SomeString, replacingStringIfNotExistsInEnvironment alternativeText: String? = nil) where SomeString : StringProtocol {
 
         var continueResolving: Bool
         var resolvingString = String(string)

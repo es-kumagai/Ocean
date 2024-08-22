@@ -1,7 +1,7 @@
 //
 //  OSStatusCheck.swift
-//  ESCoreAudio
-//  
+//  Ocean
+//
 //  Created by Tomohiro Kumagai on 2024/06/03
 //  
 //
@@ -60,5 +60,5 @@ public func throwingOnError<Status>(statusOnSuccess: Status, _ error: @escaping 
 @inline(__always)
 public func throwingOnError(_ error: @escaping ThrowingOnError<OSStatus>.Predicate) throws -> ThrowingOnError<OSStatus> {
 
-    ThrowingOnError(statusOnSuccess: S_OK, throwingError: error)
+    ThrowingOnError(statusOnSuccess: noErr, throwingError: error)
 }
