@@ -8,7 +8,7 @@
 
 import Foundation
 
-public final class StandardErrorStream : FileHandleOutputStream {
+public final class StandardErrorStream : FileHandleOutputStream, @unchecked Sendable {
     
     public init() {
         super.init(handle: FileHandle.standardError, encoding: .utf8)
